@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { es } from "@/lib/i18n/es";
-import { detectPii } from "@/lib/privacy/pii-check";
+import { privacyBlockMessage } from "@/lib/privacy/pii-check";
 import { createClient } from "@/lib/supabase/server";
 import {
   type CaseFormState,
@@ -23,10 +23,7 @@ function readValues(formData: FormData): CaseFormValues {
 
 /** Bloquea el guardado si el texto parece contener datos identificativos. */
 function privacyCheck(values: CaseFormValues): string | undefined {
-  const kinds = detectPii(`${values.title}\n${values.general_context}`);
-  if (kinds.length === 0) return undefined;
-  const labels = kinds.map((k) => es.cases.privacy.kinds[k]);
-  return es.cases.privacy.warning(labels.join(", "));
+  return privacyBlockMessage(values.title, values.general_context);
 }
 
 function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }[]) {

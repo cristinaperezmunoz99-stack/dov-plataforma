@@ -17,6 +17,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_memory: {
+        Row: {
+          case_id: string
+          category_id: string
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          case_id: string
+          category_id: string
+          content: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          case_id?: string
+          category_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_memory_case_fk"
+            columns: ["case_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id", "user_id"]
+          },
+          {
+            foreignKeyName: "case_memory_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "memory_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cases: {
         Row: {
           case_code: string
@@ -47,6 +92,33 @@ export type Database = {
         }
         Relationships: []
       }
+      memory_categories: {
+        Row: {
+          active: boolean
+          description: string
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          description?: string
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          description?: string
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -70,6 +142,62 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      sessions: {
+        Row: {
+          case_id: string
+          changes: string
+          created_at: string
+          data: Json
+          date: string
+          id: string
+          notes: string
+          relevant_info: string
+          session_number: number
+          session_type: string
+          summary: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          case_id: string
+          changes?: string
+          created_at?: string
+          data?: Json
+          date?: string
+          id?: string
+          notes?: string
+          relevant_info?: string
+          session_number?: number
+          session_type?: string
+          summary?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          case_id?: string
+          changes?: string
+          created_at?: string
+          data?: Json
+          date?: string
+          id?: string
+          notes?: string
+          relevant_info?: string
+          session_number?: number
+          session_type?: string
+          summary?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_case_fk"
+            columns: ["case_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id", "user_id"]
+          },
+        ]
       }
     }
     Views: {

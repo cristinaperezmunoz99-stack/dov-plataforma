@@ -11,8 +11,8 @@ export function CaseTabs({ caseId }: { caseId: string }) {
   const base = `/casos/${caseId}`;
   const tabs = [
     { label: t.summary, href: base, enabled: true },
-    { label: t.memory, href: `${base}/memoria`, enabled: false },
-    { label: t.sessions, href: `${base}/sesiones`, enabled: false },
+    { label: t.memory, href: `${base}/memoria`, enabled: true },
+    { label: t.sessions, href: `${base}/sesiones`, enabled: true },
     { label: t.conversations, href: `${base}/conversaciones`, enabled: false },
     { label: t.assistants, href: `${base}/asistentes`, enabled: false },
   ];
@@ -20,7 +20,7 @@ export function CaseTabs({ caseId }: { caseId: string }) {
   return (
     <nav aria-label="Secciones del caso" className="flex gap-1 overflow-x-auto border-b border-border">
       {tabs.map((tab) => {
-        const active = pathname === tab.href;
+        const active = tab.href === base ? pathname === base : pathname.startsWith(tab.href);
         if (!tab.enabled) {
           return (
             <span

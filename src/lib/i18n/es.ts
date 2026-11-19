@@ -63,6 +63,15 @@ export const es = {
     },
     signOut: "Cerrar sesión",
   },
+  privacy: {
+    blocked: (kinds: string) =>
+      `No se ha guardado: el texto parece incluir ${kinds}. Elimina cualquier dato que permita identificar al paciente y vuelve a guardar.`,
+    kinds: {
+      email: "un email",
+      phone: "un número de teléfono",
+      idDocument: "un documento de identidad",
+    },
+  },
   nav: {
     home: "Inicio",
     cases: "Mis casos",
@@ -112,15 +121,6 @@ export const es = {
       titleMax: "El título no puede superar los 120 caracteres.",
       contextMax: "El contexto no puede superar los 20.000 caracteres.",
     },
-    privacy: {
-      warning: (kinds: string) =>
-        `No se ha guardado: el texto parece incluir ${kinds}. Elimina cualquier dato que permita identificar al paciente y vuelve a guardar.`,
-      kinds: {
-        email: "un email",
-        phone: "un número de teléfono",
-        idDocument: "un documento de identidad",
-      },
-    },
     delete: {
       title: "Eliminar caso",
       description:
@@ -130,6 +130,58 @@ export const es = {
       deleting: "Eliminando…",
       mismatch: "El código no coincide.",
     },
+  },
+  memory: {
+    title: "Memoria del caso",
+    description:
+      "Lo que guardes aquí es lo que los asistentes tendrán presente sobre este caso. Tú decides qué se guarda.",
+    empty: "Sin entradas.",
+    add: "Añadir",
+    adding: "Añadiendo…",
+    addPlaceholder: (category: string) => `Añadir a ${category.toLowerCase()}…`,
+    edit: "Editar",
+    save: "Guardar",
+    saving: "Guardando…",
+    cancel: "Cancelar",
+    delete: "Eliminar",
+    confirmDelete: "¿Eliminar esta entrada?",
+    confirm: "Sí, eliminar",
+    required: "Escribe algo antes de guardar.",
+    max: "El texto no puede superar los 10.000 caracteres.",
+    updated: (date: string) => `Actualizado el ${date}`,
+  },
+  sessions: {
+    title: "Sesiones",
+    new: "Nueva sesión",
+    empty: "Aún no hay sesiones registradas en este caso.",
+    number: (n: number) => `Sesión ${n}`,
+    noSummary: "Sin resumen.",
+    back: "Sesiones",
+    form: {
+      date: "Fecha",
+      summary: "Resumen",
+      summaryHint: "Lo esencial de la sesión. Es lo que se usará como contexto.",
+      notes: "Notas",
+      relevant: "Información relevante",
+      changes: "Cambios respecto a sesiones anteriores",
+      create: "Guardar sesión",
+      creating: "Guardando…",
+      save: "Guardar cambios",
+      saving: "Guardando…",
+      saved: "Cambios guardados.",
+      cancel: "Cancelar",
+      invalidDate: "Introduce una fecha válida.",
+      tooLong: "El texto es demasiado largo.",
+    },
+    delete: {
+      title: "Eliminar sesión",
+      description: "Se eliminará esta sesión. Esta acción no se puede deshacer.",
+      confirmLabel: "Confirmo que quiero eliminar esta sesión",
+      submit: "Eliminar sesión",
+      deleting: "Eliminando…",
+      notConfirmed: "Marca la casilla para confirmar.",
+    },
+    notFound: "Esta sesión no existe o no tienes acceso a ella.",
   },
 } as const;
 

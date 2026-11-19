@@ -1,3 +1,5 @@
+import { es } from "@/lib/i18n/es";
+
 /**
  * Detección básica de datos que podrían identificar a un paciente.
  * Si detecta algo, el guardado se bloquea.
@@ -27,4 +29,16 @@ export function detectPii(text: string): PiiKind[] {
     }
   }
   return [...found];
+}
+
+
+/**
+ * Devuelve el mensaje de bloqueo si alguno de los textos parece contener datos
+ * identificativos, o undefined si se puede guardar.
+ */
+export function privacyBlockMessage(...texts: string[]): string | undefined {
+  const kinds = detectPii(texts.join("\n"));
+  if (kinds.length === 0) return undefined;
+  const labels = kinds.map((k) => es.privacy.kinds[k]).join(", ");
+  return es.privacy.blocked(labels);
 }
