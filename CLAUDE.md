@@ -15,4 +15,5 @@ Plataforma SaaS para psicólogos: casos clínicos + asistentes de IA. Datos de s
 - Textos de interfaz en `src/lib/i18n/es.ts`. Español neutro, tratamiento de "tú". Nunca lenguaje de diagnóstico ni de decisión de tratamiento.
 - No inventes asistentes ni escribas prompts clínicos.
 - Cambios de esquema siempre como migración en `supabase/migrations/`.
+- En este proyecto `service_role` NO tiene permisos por defecto en tablas nuevas: concede solo los mínimos que necesite el servidor (ver 0007).
 - Una fase cada vez; cada fase se verifica antes de continuar.
