@@ -4,7 +4,7 @@ Espacio de trabajo para psicólogos, caso a caso. Plataforma SaaS de Darle Otra 
 
 ## Stack
 
-Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Supabase (PostgreSQL + Auth, región UE) · Anthropic API · Stripe · Vercel (región fra1).
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Supabase (PostgreSQL + Auth, región UE: eu-west-1, Irlanda) · Anthropic API · Stripe · Vercel (región dub1, junto a Supabase en Irlanda).
 
 ## Desarrollo local
 
