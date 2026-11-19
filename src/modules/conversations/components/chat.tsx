@@ -3,22 +3,28 @@
 import { useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Markdown } from "@/components/ui/markdown";
 import { es } from "@/lib/i18n/es";
 import { STREAM_ERROR_MARKER } from "../stream";
+import { type CategoryOption, SaveToMemory } from "./save-to-memory";
 
 type Message = { id: string; role: "user" | "assistant"; content: string };
 
 const c = es.chat;
 
 export function Chat({
+  caseId,
   conversationId,
   assistantName,
   initialMessages,
+  categories,
   disabled,
 }: {
+  caseId: string;
   conversationId: string;
   assistantName: string;
   initialMessages: Message[];
+  categories: CategoryOption[];
   disabled?: boolean;
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -102,9 +108,20 @@ export function Chat({
                 }`}
               >
                 <p className="mb-1 text-caption text-ink-muted">{m.role === "user" ? c.you : assistantName}</p>
-                <p className="whitespace-pre-wrap text-body">
-                  {m.content || (pending && m.role === "assistant" ? "…" : "")}
-                </p>
+                {m.role === "assistant" ? (
+                  m.content ? (
+                    <>
+                      <Markdown>{m.content}</Markdown>
+                      {!(pending && m.id === messages[messages.length - 1]?.id) ? (
+                        <SaveToMemory caseId={caseId} content={m.content} categories={categories} />
+                      ) : null}
+                    </>
+                  ) : (
+                    <p className="text-body text-ink-muted">…</p>
+                  )
+                ) : (
+                  <p className="whitespace-pre-wrap text-body">{m.content}</p>
+                )}
               </div>
             </div>
           ))

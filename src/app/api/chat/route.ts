@@ -10,7 +10,8 @@ import { createClient } from "@/lib/supabase/server";
 import { buildCaseContext } from "@/modules/conversations/context";
 import { STREAM_ERROR_MARKER } from "@/modules/conversations/stream";
 
-export const maxDuration = 120;
+// Respuestas largas (formulaciones completas) pueden tardar más de un minuto.
+export const maxDuration = 300;
 
 const HISTORY_LIMIT = 30;
 const RATE_LIMIT_PER_MINUTE = 8;

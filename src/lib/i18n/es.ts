@@ -147,8 +147,12 @@ export const es = {
     confirmDelete: "¿Eliminar esta entrada?",
     confirm: "Sí, eliminar",
     required: "Escribe algo antes de guardar.",
-    max: "El texto no puede superar los 10.000 caracteres.",
+    max: "El texto no puede superar los 20.000 caracteres. Recórtalo y quédate con lo esencial.",
     updated: (date: string) => `Actualizado el ${date}`,
+    saveFromChat: "Guardar en memoria",
+    saveFromChatHint: "Revisa el texto y quédate con lo que deba seguir presente en el caso.",
+    categoryLabel: "Categoría",
+    savedFromChat: "Guardado en la memoria del caso.",
   },
   sessions: {
     title: "Sesiones",

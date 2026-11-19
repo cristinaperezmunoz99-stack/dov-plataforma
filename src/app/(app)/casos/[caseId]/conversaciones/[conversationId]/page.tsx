@@ -6,12 +6,16 @@ import { deleteConversation } from "@/modules/conversations/actions";
 import { Chat } from "@/modules/conversations/components/chat";
 import { DeleteConversation } from "@/modules/conversations/components/delete-conversation";
 import { getConversation } from "@/modules/conversations/queries";
+import { listMemoryCategories } from "@/modules/memory/queries";
 
 export default async function ConversationPage({
   params,
 }: PageProps<"/casos/[caseId]/conversaciones/[conversationId]">) {
   const { caseId, conversationId } = await params;
-  const conversation = await getConversation(caseId, conversationId);
+  const [conversation, categories] = await Promise.all([
+    getConversation(caseId, conversationId),
+    listMemoryCategories(),
+  ]);
   if (!conversation) notFound();
 
   return (
@@ -28,6 +32,8 @@ export default async function ConversationPage({
       </div>
       {!conversation.assistant_active ? <Alert tone="warning">{es.conversations.inactive}</Alert> : null}
       <Chat
+        caseId={caseId}
+        categories={categories.map((c) => ({ id: c.id, name: c.name }))}
         conversationId={conversation.id}
         assistantName={conversation.assistant_name}
         initialMessages={conversation.messages}

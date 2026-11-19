@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Markdown } from "@/components/ui/markdown";
 import { es } from "@/lib/i18n/es";
 import { formatDate } from "@/modules/cases/format";
 import { addMemory, deleteMemory, updateMemory } from "../actions";
@@ -34,7 +35,7 @@ function AddForm({ caseId, category }: { caseId: string; category: MemoryCategor
         id={`add-${category.id}`}
         name="content"
         rows={3}
-        maxLength={10000}
+        maxLength={20000}
         defaultValue={state.savedAt ? "" : state.value}
         placeholder={m.addPlaceholder(category.name)}
         className={textareaClass}
@@ -70,7 +71,7 @@ function Entry({ caseId, entry }: { caseId: string; entry: MemoryEntry }) {
         <textarea
           name="content"
           rows={4}
-          maxLength={10000}
+          maxLength={20000}
           defaultValue={state.value ?? entry.content}
           className={textareaClass}
           aria-label={m.edit}
@@ -89,7 +90,7 @@ function Entry({ caseId, entry }: { caseId: string; entry: MemoryEntry }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="whitespace-pre-wrap text-body text-ink">{entry.content}</p>
+      <Markdown>{entry.content}</Markdown>
       <div className="flex flex-wrap items-center gap-3 text-caption text-ink-muted">
         <span>{m.updated(formatDate(entry.updated_at))}</span>
         {confirming ? (

@@ -66,6 +66,8 @@ export async function buildCaseContext(
   return [
     "<informacion_del_caso>",
     "Información registrada por el psicólogo en la plataforma sobre este caso.",
+    "Úsala como punto de partida: no vuelvas a pedir datos que ya aparezcan aquí.",
+    "Si en la conversación el psicólogo aporta datos que actualizan o contradicen esta información, prevalece lo que diga en la conversación.",
     "",
     parts.join("\n\n"),
     "</informacion_del_caso>",
