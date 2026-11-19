@@ -76,19 +76,24 @@ export async function POST(request: NextRequest) {
 
   // 6. Configuración del asistente (solo servidor)
   const admin = createAdminClient();
-  const { data: assistant } = await admin
+  const { data: assistant, error: assistantError } = await admin
     .from("assistants")
     .select("id, active")
     .eq("id", conversation.assistant_id)
     .maybeSingle();
+  if (assistantError) {
+    console.error("chat load assistant", assistantError.code, assistantError.message);
+    return fail(503, t.unavailable);
+  }
   if (!assistant?.active) return fail(409, t.unavailable);
 
-  const { data: version } = await admin
+  const { data: version, error: versionError } = await admin
     .from("assistant_versions")
     .select("id, system_prompt, model, max_tokens")
     .eq("assistant_id", assistant.id)
     .eq("is_current", true)
     .maybeSingle();
+  if (versionError) console.error("chat load version", versionError.code, versionError.message);
   if (!version) return fail(503, t.unavailable);
 
   // 7. Contexto del caso e historial (cliente del usuario: RLS)
