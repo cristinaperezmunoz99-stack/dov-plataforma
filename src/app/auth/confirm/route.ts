@@ -25,19 +25,31 @@ export async function GET(request: NextRequest) {
 
   const supabase = await createClient();
   let ok = false;
+  let codeExchangeFailed = false;
 
   if (tokenHash && type) {
     const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
     ok = !error;
+    if (error) console.error("auth/confirm verifyOtp", error.code ?? error.name);
   } else if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     ok = !error;
+    if (error) {
+      codeExchangeFailed = true;
+      console.error("auth/confirm exchangeCode", error.code ?? error.name);
+    }
   }
 
   const target = request.nextUrl.clone();
   target.search = "";
   if (ok) {
     target.pathname = next;
+  } else if (codeExchangeFailed && next === "/dashboard") {
+    // Con "code", Supabase ya ha confirmado el email antes de redirigir aquí.
+    // Si no se puede abrir sesión (p. ej. enlace abierto en otro navegador),
+    // la cuenta está confirmada igualmente: basta con iniciar sesión.
+    target.pathname = "/login";
+    target.searchParams.set("confirmado", "1");
   } else {
     target.pathname = "/login";
     target.searchParams.set("error", "enlace");

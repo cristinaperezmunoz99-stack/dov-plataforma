@@ -51,6 +51,7 @@ export const es = {
       submit: "Guardar contraseña",
       pending: "Guardando…",
     },
+    confirmed: "Tu cuenta está confirmada. Inicia sesión para continuar.",
     confirmError:
       "El enlace no es válido o ha caducado. Solicita uno nuevo.",
     validation: {

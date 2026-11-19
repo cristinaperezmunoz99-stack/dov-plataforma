@@ -21,13 +21,14 @@ function Title({ children }: { children: React.ReactNode }) {
   return <h1 className="mb-6 text-heading text-ink">{children}</h1>;
 }
 
-export function LoginForm({ linkError }: { linkError?: boolean }) {
+export function LoginForm({ linkError, confirmed }: { linkError?: boolean; confirmed?: boolean }) {
   const [state, action, pending] = useActionState(signIn, initial);
   return (
     <>
       <Title>{t.login.title}</Title>
       <form action={action} className="flex flex-col gap-4" noValidate>
         {linkError && !state.error ? <Alert tone="danger">{t.confirmError}</Alert> : null}
+        {confirmed && !state.error ? <Alert tone="success">{t.confirmed}</Alert> : null}
         {state.error ? <Alert tone="danger">{state.error}</Alert> : null}
         <Field label={es.common.email} name="email" type="email" autoComplete="email" required error={state.fieldErrors?.email} />
         <Field label={es.common.password} name="password" type="password" autoComplete="current-password" required error={state.fieldErrors?.password} />
