@@ -63,10 +63,75 @@ export const es = {
     },
     signOut: "Cerrar sesión",
   },
+  nav: {
+    home: "Inicio",
+    cases: "Mis casos",
+  },
   dashboard: {
     greeting: (name: string) => (name ? `Hola, ${name}` : "Hola"),
-    placeholder:
-      "Aquí verás tus casos recientes. La gestión de casos llega en la siguiente fase.",
+    recent: "Casos recientes",
+    viewAll: "Ver todos los casos",
+    empty: "Aún no tienes casos. Crea el primero para empezar a trabajar.",
+  },
+  cases: {
+    title: "Mis casos",
+    new: "Nuevo caso",
+    searchLabel: "Buscar casos",
+    searchPlaceholder: "Código o título",
+    search: "Buscar",
+    clear: "Limpiar",
+    noResults: (q: string) => `No hay casos que coincidan con "${q}".`,
+    empty: "Aún no tienes casos.",
+    untitled: "Sin título",
+    updated: (date: string) => `Actualizado el ${date}`,
+    notFound: "Este caso no existe o no tienes acceso a él.",
+    back: "Mis casos",
+    tabs: {
+      summary: "Resumen",
+      memory: "Memoria",
+      sessions: "Sesiones",
+      conversations: "Conversaciones",
+      assistants: "Asistentes",
+      soon: "Próximamente",
+    },
+    form: {
+      newTitle: "Nuevo caso",
+      newDescription:
+        "El caso recibirá un código automático (por ejemplo, CASO-7F3A). Úsalo para referirte a él en lugar de datos del paciente.",
+      titleLabel: "Título interno",
+      titleHint: "Opcional. Algo que te ayude a reconocerlo, sin datos identificativos.",
+      contextLabel: "Contexto general",
+      contextHint:
+        "Motivo de consulta, situación actual y lo que necesites tener presente. Los asistentes usarán este contexto.",
+      create: "Crear caso",
+      creating: "Creando…",
+      save: "Guardar cambios",
+      saving: "Guardando…",
+      saved: "Cambios guardados.",
+      cancel: "Cancelar",
+      titleMax: "El título no puede superar los 120 caracteres.",
+      contextMax: "El contexto no puede superar los 20.000 caracteres.",
+    },
+    privacy: {
+      warning: (kinds: string) =>
+        `Parece que el texto incluye ${kinds}. Evita datos que permitan identificar al paciente.`,
+      kinds: {
+        email: "un email",
+        phone: "un número de teléfono",
+        idDocument: "un documento de identidad",
+      },
+      review: "Si prefieres revisarlo, edita el texto y vuelve a guardar.",
+      saveAnyway: "Guardar igualmente",
+    },
+    delete: {
+      title: "Eliminar caso",
+      description:
+        "Se eliminará el caso con toda su información. Esta acción no se puede deshacer.",
+      confirmLabel: (code: string) => `Escribe ${code} para confirmar`,
+      submit: "Eliminar caso",
+      deleting: "Eliminando…",
+      mismatch: "El código no coincide.",
+    },
   },
 } as const;
 

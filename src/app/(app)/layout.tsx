@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth";
 import { es } from "@/lib/i18n/es";
@@ -7,15 +8,29 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const user = await requireUser();
   return (
     <div className="flex min-h-full flex-1 flex-col">
-      <header className="flex items-center justify-between border-b border-border bg-surface px-6 py-3">
-        <span className="font-serif text-heading text-ink">{es.app.name}</span>
-        <div className="flex items-center gap-4">
-          <span className="text-body-sm text-ink-muted">{user.email}</span>
-          <form action={signOut}>
-            <Button type="submit" variant="ghost">
-              {es.auth.signOut}
-            </Button>
-          </form>
+      <header className="border-b border-border bg-surface">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6 px-6 py-3">
+          <div className="flex items-center gap-6">
+            <Link href="/dashboard" className="font-serif text-heading text-ink">
+              {es.app.name}
+            </Link>
+            <nav className="flex gap-4 text-label">
+              <Link href="/dashboard" className="text-ink-muted hover:text-ink">
+                {es.nav.home}
+              </Link>
+              <Link href="/casos" className="text-ink-muted hover:text-ink">
+                {es.nav.cases}
+              </Link>
+            </nav>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="hidden text-body-sm text-ink-muted sm:inline">{user.email}</span>
+            <form action={signOut}>
+              <Button type="submit" variant="ghost">
+                {es.auth.signOut}
+              </Button>
+            </form>
+          </div>
         </div>
       </header>
       <div className="flex-1">{children}</div>
