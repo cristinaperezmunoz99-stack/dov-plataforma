@@ -13,8 +13,8 @@ export function CaseTabs({ caseId }: { caseId: string }) {
     { label: t.summary, href: base, enabled: true },
     { label: t.memory, href: `${base}/memoria`, enabled: true },
     { label: t.sessions, href: `${base}/sesiones`, enabled: true },
-    { label: t.conversations, href: `${base}/conversaciones`, enabled: false },
-    { label: t.assistants, href: `${base}/asistentes`, enabled: false },
+    { label: t.conversations, href: `${base}/conversaciones`, enabled: true },
+    { label: t.assistants, href: `${base}/asistentes`, enabled: true },
   ];
 
   return (

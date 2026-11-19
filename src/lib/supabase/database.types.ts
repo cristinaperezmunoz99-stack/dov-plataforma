@@ -17,6 +17,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      assistant_versions: {
+        Row: {
+          assistant_id: string
+          config: Json
+          created_at: string
+          id: string
+          is_current: boolean
+          max_tokens: number
+          model: string
+          system_prompt: string
+          version: number
+        }
+        Insert: {
+          assistant_id: string
+          config?: Json
+          created_at?: string
+          id?: string
+          is_current?: boolean
+          max_tokens: number
+          model: string
+          system_prompt: string
+          version: number
+        }
+        Update: {
+          assistant_id?: string
+          config?: Json
+          created_at?: string
+          id?: string
+          is_current?: boolean
+          max_tokens?: number
+          model?: string
+          system_prompt?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      assistants: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       case_memory: {
         Row: {
           case_id: string
@@ -92,6 +158,36 @@ export type Database = {
         }
         Relationships: []
       }
+      conversations: {
+        Row: {
+          assistant_id: string
+          case_id: string
+          created_at: string
+          id: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assistant_id: string
+          case_id: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          assistant_id?: string
+          case_id?: string
+          created_at?: string
+          id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       memory_categories: {
         Row: {
           active: boolean
@@ -116,6 +212,36 @@ export type Database = {
           name?: string
           slug?: string
           sort_order?: number
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          assistant_version_id: string | null
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          assistant_version_id?: string | null
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          assistant_version_id?: string | null
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -198,6 +324,54 @@ export type Database = {
             referencedColumns: ["id", "user_id"]
           },
         ]
+      }
+      usage_events: {
+        Row: {
+          assistant_id: string | null
+          assistant_version_id: string | null
+          cache_creation_input_tokens: number
+          cache_read_input_tokens: number
+          case_id: string | null
+          conversation_id: string | null
+          created_at: string
+          estimated_cost_usd: number
+          id: string
+          input_tokens: number
+          model: string
+          output_tokens: number
+          user_id: string
+        }
+        Insert: {
+          assistant_id?: string | null
+          assistant_version_id?: string | null
+          cache_creation_input_tokens?: number
+          cache_read_input_tokens?: number
+          case_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          estimated_cost_usd?: number
+          id?: string
+          input_tokens?: number
+          model: string
+          output_tokens?: number
+          user_id: string
+        }
+        Update: {
+          assistant_id?: string | null
+          assistant_version_id?: string | null
+          cache_creation_input_tokens?: number
+          cache_read_input_tokens?: number
+          case_id?: string | null
+          conversation_id?: string | null
+          created_at?: string
+          estimated_cost_usd?: number
+          id?: string
+          input_tokens?: number
+          model?: string
+          output_tokens?: number
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {

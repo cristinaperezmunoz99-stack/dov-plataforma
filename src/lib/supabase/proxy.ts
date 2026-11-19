@@ -62,6 +62,10 @@ export async function updateSession(request: NextRequest) {
   if (pathname === "/") {
     return redirectTo(isAuthenticated ? "/dashboard" : "/login");
   }
+  if (!isAuthenticated && pathname.startsWith("/api/")) {
+    // Las rutas de API responden con 401, no con una redirección a una página HTML.
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
   if (!isAuthenticated && !matches(pathname, PUBLIC_PATHS)) {
     return redirectTo("/login");
   }

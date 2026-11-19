@@ -183,6 +183,44 @@ export const es = {
     },
     notFound: "Esta sesión no existe o no tienes acceso a ella.",
   },
+  assistants: {
+    description:
+      "Elige un asistente para abrir una conversación sobre este caso. Recibirá el contexto, la memoria y las sesiones recientes del caso.",
+    start: "Nueva conversación",
+    starting: "Abriendo…",
+    empty: "No hay asistentes disponibles todavía.",
+  },
+  conversations: {
+    empty: "Aún no hay conversaciones en este caso.",
+    toAssistants: "Elige un asistente para empezar",
+    untitled: "Conversación sin título",
+    updated: (date: string) => `Actualizada el ${date}`,
+    back: "Conversaciones",
+    notFound: "Esta conversación no existe o no tienes acceso a ella.",
+    delete: "Eliminar conversación",
+    confirmDelete: "¿Eliminar esta conversación y todos sus mensajes?",
+    confirm: "Sí, eliminar",
+    cancel: "Cancelar",
+    inactive: "Este asistente ya no está disponible. Puedes consultar la conversación, pero no continuarla.",
+  },
+  chat: {
+    placeholder: "Escribe tu mensaje…",
+    send: "Enviar",
+    sending: "Respondiendo…",
+    you: "Tú",
+    disclaimer:
+      "Las respuestas de los asistentes son un apoyo. El criterio clínico y las decisiones son tuyos.",
+    empty: "Escribe el primer mensaje para empezar.",
+    errors: {
+      generic: "No se ha podido obtener respuesta. Inténtalo de nuevo.",
+      rateLimited: "Has enviado muchos mensajes seguidos. Espera un minuto e inténtalo de nuevo.",
+      unavailable: "El asistente no está disponible en este momento.",
+      tooLong: "El mensaje es demasiado largo.",
+      unauthorized: "Tu sesión ha caducado. Vuelve a iniciar sesión.",
+      notFound: "Esta conversación no existe o no tienes acceso a ella.",
+      interrupted: "La respuesta se ha interrumpido. Inténtalo de nuevo.",
+    },
+  },
 } as const;
 
 export type Dictionary = typeof es;
