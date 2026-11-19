@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // cacheComponents desactivado a propósito: con datos clínicos, nada se cachea
+  // salvo que se decida de forma explícita y revisada.
   turbopack: {
     rules: {
       "*.css": {
