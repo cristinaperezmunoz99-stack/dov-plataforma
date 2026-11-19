@@ -114,14 +114,12 @@ export const es = {
     },
     privacy: {
       warning: (kinds: string) =>
-        `Parece que el texto incluye ${kinds}. Evita datos que permitan identificar al paciente.`,
+        `No se ha guardado: el texto parece incluir ${kinds}. Elimina cualquier dato que permita identificar al paciente y vuelve a guardar.`,
       kinds: {
         email: "un email",
         phone: "un número de teléfono",
         idDocument: "un documento de identidad",
       },
-      review: "Si prefieres revisarlo, edita el texto y vuelve a guardar.",
-      saveAnyway: "Guardar igualmente",
     },
     delete: {
       title: "Eliminar caso",

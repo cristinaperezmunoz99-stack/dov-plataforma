@@ -46,19 +46,7 @@ export function CaseForm({ action, initialValues, mode }: Props) {
         error={state.fieldErrors?.general_context}
       />
 
-      {state.privacyWarning ? (
-        <div className="flex flex-col gap-3 rounded-md bg-warning-soft p-4">
-          <p className="text-body-sm text-warning" role="status">
-            {state.privacyWarning}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <Button type="submit" name="confirmPrivacy" value="1" variant="secondary" disabled={pending}>
-              {es.cases.privacy.saveAnyway}
-            </Button>
-          </div>
-          <p className="text-caption text-ink-muted">{es.cases.privacy.review}</p>
-        </div>
-      ) : null}
+      {state.privacyWarning ? <Alert tone="warning">{state.privacyWarning}</Alert> : null}
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={pending}>

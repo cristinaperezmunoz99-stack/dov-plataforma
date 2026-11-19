@@ -21,9 +21,8 @@ function readValues(formData: FormData): CaseFormValues {
   };
 }
 
-/** Devuelve un aviso si el texto parece contener datos identificativos y no se ha confirmado. */
-function privacyCheck(values: CaseFormValues, formData: FormData): string | undefined {
-  if (formData.get("confirmPrivacy") === "1") return undefined;
+/** Bloquea el guardado si el texto parece contener datos identificativos. */
+function privacyCheck(values: CaseFormValues): string | undefined {
   const kinds = detectPii(`${values.title}\n${values.general_context}`);
   if (kinds.length === 0) return undefined;
   const labels = kinds.map((k) => es.cases.privacy.kinds[k]);
@@ -45,7 +44,7 @@ export async function createCase(_prev: CaseFormState, formData: FormData): Prom
   const parsed = caseInputSchema.safeParse(values);
   if (!parsed.success) return { values, fieldErrors: fieldErrorsFrom(parsed.error.issues) };
 
-  const privacyWarning = privacyCheck(values, formData);
+  const privacyWarning = privacyCheck(values);
   if (privacyWarning) return { values, privacyWarning };
 
   const supabase = await createClient();
@@ -76,7 +75,7 @@ export async function updateCase(
   const parsed = caseInputSchema.safeParse(values);
   if (!parsed.success) return { values, fieldErrors: fieldErrorsFrom(parsed.error.issues) };
 
-  const privacyWarning = privacyCheck(values, formData);
+  const privacyWarning = privacyCheck(values);
   if (privacyWarning) return { values, privacyWarning };
 
   const supabase = await createClient();

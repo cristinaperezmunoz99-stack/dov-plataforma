@@ -10,6 +10,7 @@ Plataforma SaaS para psicólogos: casos clínicos + asistentes de IA. Datos de s
 - Validación de entradas en servidor con zod.
 - Los system_prompt de los asistentes nunca son legibles desde el cliente.
 - Logs sin contenido clínico. Errores sin información sensible.
+- Política de datos identificativos: si `detectPii` detecta algo, se BLOQUEA el guardado (sin opción de "guardar igualmente").
 - Estilos solo con los tokens de `src/app/globals.css` (bg-surface, text-ink, rounded-md...). Nada de colores o medidas sueltos.
 - Textos de interfaz en `src/lib/i18n/es.ts`. Español neutro, tratamiento de "tú". Nunca lenguaje de diagnóstico ni de decisión de tratamiento.
 - No inventes asistentes ni escribas prompts clínicos.

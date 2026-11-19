@@ -1,5 +1,6 @@
 /**
  * Detección básica de datos que podrían identificar a un paciente.
+ * Si detecta algo, el guardado se bloquea.
  * Es una capa de apoyo, no una garantía: no detecta nombres propios ni direcciones.
  * Punto de inserción único para ampliar la detección más adelante.
  */
@@ -17,7 +18,10 @@ export function detectPii(text: string): PiiKind[] {
   if (ID_DOCUMENT.test(text)) found.add("idDocument");
   for (const match of text.match(PHONE_CANDIDATE) ?? []) {
     const digits = match.replace(/\D/g, "");
-    if (digits.length >= 9 && digits.length <= 15) {
+    // Listas de años ("2022 2023 2024") no son teléfonos.
+    const groups = match.trim().split(/[\s.-]+/);
+    const onlyYears = groups.every((g) => /^(19|20)\d{2}$/.test(g));
+    if (!onlyYears && digits.length >= 9 && digits.length <= 15) {
       found.add("phone");
       break;
     }
