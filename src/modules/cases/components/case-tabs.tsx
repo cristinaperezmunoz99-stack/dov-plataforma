@@ -12,7 +12,6 @@ export function CaseTabs({ caseId }: { caseId: string }) {
   const tabs = [
     { label: t.summary, href: base, enabled: true },
     { label: t.memory, href: `${base}/memoria`, enabled: true },
-    { label: t.sessions, href: `${base}/sesiones`, enabled: true },
     { label: t.resources, href: `${base}/recursos`, enabled: true },
     { label: t.conversations, href: `${base}/conversaciones`, enabled: true },
     { label: t.assistants, href: `${base}/asistentes`, enabled: true },

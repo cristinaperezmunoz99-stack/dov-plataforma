@@ -98,7 +98,6 @@ export const es = {
     tabs: {
       summary: "Resumen",
       memory: "Trabajo clínico",
-      sessions: "Sesiones",
       resources: "Recursos",
       conversations: "Conversaciones",
       assistants: "Asistentes",
@@ -160,39 +159,6 @@ export const es = {
     replaces: "Sustituye la versión vigente.",
     view: "Ver",
   },
-  sessions: {
-    title: "Sesiones",
-    new: "Nueva sesión",
-    empty: "Aún no hay sesiones registradas en este caso.",
-    number: (n: number) => `Sesión ${n}`,
-    noSummary: "Sin resumen.",
-    back: "Sesiones",
-    form: {
-      date: "Fecha",
-      summary: "Resumen",
-      summaryHint: "Lo esencial de la sesión. Es lo que se usará como contexto.",
-      notes: "Notas",
-      relevant: "Información relevante",
-      changes: "Cambios respecto a sesiones anteriores",
-      create: "Guardar sesión",
-      creating: "Guardando…",
-      save: "Guardar cambios",
-      saving: "Guardando…",
-      saved: "Cambios guardados.",
-      cancel: "Cancelar",
-      invalidDate: "Introduce una fecha válida.",
-      tooLong: "El texto es demasiado largo.",
-    },
-    delete: {
-      title: "Eliminar sesión",
-      description: "Se eliminará esta sesión. Esta acción no se puede deshacer.",
-      confirmLabel: "Confirmo que quiero eliminar esta sesión",
-      submit: "Eliminar sesión",
-      deleting: "Eliminando…",
-      notConfirmed: "Marca la casilla para confirmar.",
-    },
-    notFound: "Esta sesión no existe o no tienes acceso a ella.",
-  },
   resources: {
     title: "Recursos",
     description:
@@ -220,7 +186,7 @@ export const es = {
   },
   assistants: {
     description:
-      "Elige un asistente para abrir una conversación sobre este caso. Recibirá el contexto, la memoria y las sesiones recientes del caso.",
+      "Elige un asistente para abrir una conversación sobre este caso. Recibirá lo que contaste del caso, el trabajo clínico guardado y la lista de recursos.",
     start: "Nueva conversación",
     starting: "Abriendo…",
     empty: "No hay asistentes disponibles todavía.",
