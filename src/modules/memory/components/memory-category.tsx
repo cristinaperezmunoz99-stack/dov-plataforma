@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { es } from "@/lib/i18n/es";
 import { formatDate } from "@/modules/cases/format";
+import { startConversation } from "@/modules/conversations/actions";
 import { addMemory, deleteMemory, updateMemory } from "../actions";
 import type { MemoryCategory, MemoryEntry } from "../queries";
 import type { MemoryFormState } from "../schemas";
@@ -22,7 +23,15 @@ function FormMessages({ state }: { state: MemoryFormState }) {
 }
 
 function AddForm({ caseId, category }: { caseId: string; category: MemoryCategory }) {
+  const [open, setOpen] = useState(false);
   const [state, action, pending] = useActionState(addMemory.bind(null, caseId, category.id), {});
+  if (!open && !state.error && !state.privacyWarning) {
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="self-start text-label text-ink-muted hover:text-ink">
+        {m.addManually}
+      </button>
+    );
+  }
   return (
     <form action={action} className="flex flex-col gap-2">
       <FormMessages state={state} />
@@ -35,7 +44,7 @@ function AddForm({ caseId, category }: { caseId: string; category: MemoryCategor
         id={`add-${category.id}`}
         name="content"
         rows={3}
-        maxLength={20000}
+        maxLength={60000}
         defaultValue={state.savedAt ? "" : state.value}
         placeholder={m.addPlaceholder(category.name)}
         className={textareaClass}
@@ -71,7 +80,7 @@ function Entry({ caseId, entry }: { caseId: string; entry: MemoryEntry }) {
         <textarea
           name="content"
           rows={4}
-          maxLength={20000}
+          maxLength={60000}
           defaultValue={state.value ?? entry.content}
           className={textareaClass}
           aria-label={m.edit}
@@ -124,23 +133,45 @@ export function MemoryCategorySection({
   caseId,
   category,
   entries,
+  assistants,
 }: {
   caseId: string;
   category: MemoryCategory;
   entries: MemoryEntry[];
+  assistants: { id: string; name: string }[];
 }) {
+  const single = category.mode === "single";
+  const shown = single ? entries.slice(-1) : entries;
   return (
     <section className="rounded-lg border border-border bg-surface p-6">
-      <h2 className="text-heading text-ink">{category.name}</h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 className="text-heading text-ink">{category.name}</h2>
+        {single && shown.length > 0 ? <span className="text-caption text-ink-muted">{m.current}</span> : null}
+      </div>
       {category.description ? (
         <p className="mt-1 text-body-sm text-ink-muted">{category.description}</p>
       ) : null}
       <div className="mt-4 flex flex-col gap-4">
-        {entries.length === 0 ? (
-          <p className="text-body-sm text-ink-muted">{m.empty}</p>
+        {shown.length === 0 ? (
+          <div className="flex flex-col gap-3">
+            <p className="text-body-sm text-ink-muted">
+              {assistants.length > 0 ? m.builtWith(assistants.map((a) => a.name).join(", ")) : m.empty}
+            </p>
+            {assistants.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {assistants.map((a) => (
+                  <form key={a.id} action={startConversation.bind(null, caseId, a.id)}>
+                    <Button type="submit" variant="secondary">
+                      {m.openAssistant(a.name)}
+                    </Button>
+                  </form>
+                ))}
+              </div>
+            ) : null}
+          </div>
         ) : (
           <ul className="flex flex-col divide-y divide-border">
-            {entries.map((entry) => (
+            {shown.map((entry) => (
               <li key={entry.id} className="py-3 first:pt-0">
                 <Entry caseId={caseId} entry={entry} />
               </li>

@@ -6,7 +6,7 @@ export async function listActiveAssistants() {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("assistants")
-    .select("id, slug, name, description")
+    .select("id, slug, name, description, save_targets")
     .eq("active", true)
     .order("sort_order");
   if (error) {

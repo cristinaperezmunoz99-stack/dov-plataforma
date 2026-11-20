@@ -13,7 +13,7 @@ export default async function CaseLayout({ children, params }: LayoutProps<"/cas
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-12">
-      <div>
+      <div className="print:hidden">
         <Link href="/casos" className="text-label text-ink-muted hover:text-ink">
           ← {es.cases.back}
         </Link>

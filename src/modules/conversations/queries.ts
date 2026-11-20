@@ -37,7 +37,11 @@ export async function getConversation(caseId: string, conversationId: string) {
   if (!conversation) return null;
 
   const [{ data: assistant }, { data: messages }] = await Promise.all([
-    supabase.from("assistants").select("name, active").eq("id", conversation.assistant_id).single(),
+    supabase
+      .from("assistants")
+      .select("name, active, save_targets")
+      .eq("id", conversation.assistant_id)
+      .single(),
     supabase
       .from("messages")
       .select("id, role, content, created_at")
@@ -49,6 +53,7 @@ export async function getConversation(caseId: string, conversationId: string) {
     ...conversation,
     assistant_name: assistant?.name ?? "",
     assistant_active: assistant?.active ?? false,
+    assistant_save_targets: assistant?.save_targets ?? [],
     messages: (messages ?? []).map((m) => ({
       id: m.id,
       role: m.role as "user" | "assistant",

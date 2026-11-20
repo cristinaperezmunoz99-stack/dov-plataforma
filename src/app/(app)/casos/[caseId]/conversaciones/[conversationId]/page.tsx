@@ -6,6 +6,7 @@ import { deleteConversation } from "@/modules/conversations/actions";
 import { Chat } from "@/modules/conversations/components/chat";
 import { DeleteConversation } from "@/modules/conversations/components/delete-conversation";
 import { getConversation } from "@/modules/conversations/queries";
+import { resolveTargets } from "@/modules/clinical-work/targets";
 import { listMemoryCategories } from "@/modules/memory/queries";
 
 export default async function ConversationPage({
@@ -33,7 +34,7 @@ export default async function ConversationPage({
       {!conversation.assistant_active ? <Alert tone="warning">{es.conversations.inactive}</Alert> : null}
       <Chat
         caseId={caseId}
-        categories={categories.map((c) => ({ id: c.id, name: c.name }))}
+        targets={resolveTargets(conversation.assistant_save_targets, categories)}
         conversationId={conversation.id}
         assistantName={conversation.assistant_name}
         initialMessages={conversation.messages}

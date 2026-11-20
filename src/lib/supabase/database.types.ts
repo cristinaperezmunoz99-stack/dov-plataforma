@@ -62,6 +62,7 @@ export type Database = {
           name: string
           slug: string
           sort_order: number
+          save_targets: string[]
         }
         Insert: {
           active?: boolean
@@ -71,6 +72,7 @@ export type Database = {
           name: string
           slug: string
           sort_order?: number
+          save_targets?: string[]
         }
         Update: {
           active?: boolean
@@ -80,6 +82,43 @@ export type Database = {
           name?: string
           slug?: string
           sort_order?: number
+          save_targets?: string[]
+        }
+        Relationships: []
+      }
+      case_resources: {
+        Row: {
+          case_id: string
+          content: string
+          created_at: string
+          id: string
+          resource_type: string
+          source_assistant_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          case_id: string
+          content: string
+          created_at?: string
+          id?: string
+          resource_type?: string
+          source_assistant_id?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          case_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          resource_type?: string
+          source_assistant_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -196,6 +235,7 @@ export type Database = {
           name: string
           slug: string
           sort_order: number
+          mode: string
         }
         Insert: {
           active?: boolean
@@ -204,6 +244,7 @@ export type Database = {
           name: string
           slug: string
           sort_order?: number
+          mode?: string
         }
         Update: {
           active?: boolean
@@ -212,6 +253,7 @@ export type Database = {
           name?: string
           slug?: string
           sort_order?: number
+          mode?: string
         }
         Relationships: []
       }

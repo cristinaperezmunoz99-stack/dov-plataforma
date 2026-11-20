@@ -87,14 +87,3 @@ export async function deleteMemory(caseId: string, entryId: string): Promise<voi
   revalidatePath(memoryPath(caseId));
 }
 
-/** Guarda en memoria (texto revisado por el psicólogo) desde una respuesta del chat. */
-export async function addMemoryFromChat(
-  caseId: string,
-  _prev: MemoryFormState,
-  formData: FormData,
-): Promise<MemoryFormState> {
-  const categoryId = String(formData.get("categoryId") ?? "");
-  const result = await addMemory(caseId, categoryId, {}, formData);
-  if (result.savedAt) revalidatePath(`/casos/${caseId}/conversaciones`);
-  return result;
-}

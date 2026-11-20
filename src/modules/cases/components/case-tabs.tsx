@@ -13,12 +13,13 @@ export function CaseTabs({ caseId }: { caseId: string }) {
     { label: t.summary, href: base, enabled: true },
     { label: t.memory, href: `${base}/memoria`, enabled: true },
     { label: t.sessions, href: `${base}/sesiones`, enabled: true },
+    { label: t.resources, href: `${base}/recursos`, enabled: true },
     { label: t.conversations, href: `${base}/conversaciones`, enabled: true },
     { label: t.assistants, href: `${base}/asistentes`, enabled: true },
   ];
 
   return (
-    <nav aria-label="Secciones del caso" className="flex gap-1 overflow-x-auto border-b border-border">
+    <nav aria-label="Secciones del caso" className="flex gap-1 overflow-x-auto border-b border-border print:hidden">
       {tabs.map((tab) => {
         const active = tab.href === base ? pathname === base : pathname.startsWith(tab.href);
         if (!tab.enabled) {

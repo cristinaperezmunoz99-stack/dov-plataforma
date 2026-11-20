@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { es } from "@/lib/i18n/es";
 import { STREAM_ERROR_MARKER } from "../stream";
-import { type CategoryOption, SaveToMemory } from "./save-to-memory";
+import type { SaveTarget } from "@/modules/clinical-work/targets";
+import { SaveActions } from "./save-actions";
 
 type Message = { id: string; role: "user" | "assistant"; content: string };
 
@@ -17,14 +18,14 @@ export function Chat({
   conversationId,
   assistantName,
   initialMessages,
-  categories,
+  targets,
   disabled,
 }: {
   caseId: string;
   conversationId: string;
   assistantName: string;
   initialMessages: Message[];
-  categories: CategoryOption[];
+  targets: SaveTarget[];
   disabled?: boolean;
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -113,7 +114,12 @@ export function Chat({
                     <>
                       <Markdown>{m.content}</Markdown>
                       {!(pending && m.id === messages[messages.length - 1]?.id) ? (
-                        <SaveToMemory caseId={caseId} content={m.content} categories={categories} />
+                        <SaveActions
+                          caseId={caseId}
+                          conversationId={conversationId}
+                          content={m.content}
+                          targets={targets}
+                        />
                       ) : null}
                     </>
                   ) : (

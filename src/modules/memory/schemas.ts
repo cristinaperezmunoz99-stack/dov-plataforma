@@ -7,7 +7,7 @@ export const memoryContentSchema = z
   .string()
   .trim()
   .min(1, es.memory.required)
-  .max(20000, es.memory.max);
+  .max(60000, es.memory.max);
 
 export type MemoryFormState = {
   error?: string;
