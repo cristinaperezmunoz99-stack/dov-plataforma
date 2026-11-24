@@ -80,6 +80,26 @@ export const es = {
   settings: {
     title: "Ajustes",
     security: "Seguridad",
+    data: "Tus datos",
+  },
+  account: {
+    export: {
+      title: "Exportar tus datos",
+      description:
+        "Descarga en un archivo JSON todo lo que guardas aquí: casos, trabajo clínico, recursos, conversaciones y registro de uso. Guárdalo en un lugar seguro: contiene información clínica.",
+      submit: "Descargar exportación",
+    },
+    delete: {
+      title: "Eliminar tu cuenta",
+      description:
+        "Se borran de forma permanente tu cuenta y todos tus datos: casos, trabajo clínico, recursos y conversaciones. No se puede deshacer. Si quieres conservar algo, exporta antes tus datos.",
+      emailLabel: (email: string) => `Escribe tu email (${email}) para confirmar`,
+      submit: "Eliminar mi cuenta",
+      deleting: "Eliminando…",
+      mismatch: "El email no coincide con el de tu cuenta.",
+      wrongPassword: "La contraseña no es correcta.",
+      done: "Tu cuenta y todos tus datos se han eliminado.",
+    },
   },
   mfa: {
     title: "Verificación en dos pasos",
