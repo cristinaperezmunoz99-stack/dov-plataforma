@@ -90,6 +90,26 @@ export async function updateSession(request: NextRequest) {
     return redirect;
   };
 
+  // Verificación en dos pasos: si la cuenta la tiene activada y esta sesión aún no ha
+  // introducido el código, solo se permite la página de verificación.
+  const MFA_PATH = "/verificar-2fa";
+  let needsMfa = false;
+  if (isAuthenticated) {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    needsMfa = aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2";
+  }
+  if (needsMfa && pathname !== MFA_PATH && !pathname.startsWith("/auth/")) {
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json({ error: "mfa_required" }, { status: 401 });
+    }
+    return redirectTo(MFA_PATH);
+  }
+  if (pathname === MFA_PATH) {
+    if (!isAuthenticated) return redirectTo("/login");
+    if (!needsMfa) return redirectTo("/dashboard");
+    return response;
+  }
+
   if (pathname === "/") {
     return redirectTo(isAuthenticated ? "/dashboard" : "/login");
   }

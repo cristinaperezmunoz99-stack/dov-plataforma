@@ -21,6 +21,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
               <Link href="/casos" className="text-ink-muted hover:text-ink">
                 {es.nav.cases}
               </Link>
+              <Link href="/ajustes" className="text-ink-muted hover:text-ink">
+                {es.nav.settings}
+              </Link>
             </nav>
           </div>
           <div className="flex items-center gap-4">

@@ -75,6 +75,38 @@ export const es = {
   nav: {
     home: "Inicio",
     cases: "Mis casos",
+    settings: "Ajustes",
+  },
+  settings: {
+    title: "Ajustes",
+    security: "Seguridad",
+  },
+  mfa: {
+    title: "Verificación en dos pasos",
+    description:
+      "Además de tu contraseña, se pedirá un código de 6 cifras de una app de autenticación (Google Authenticator, Microsoft Authenticator, 1Password…). Si alguien consigue tu contraseña, no podrá entrar sin tu móvil.",
+    enabled: "Activada.",
+    disabled: "No activada.",
+    enable: "Activar",
+    starting: "Preparando…",
+    scan: "1. Escanea este código con tu app de autenticación.",
+    manual: "Si no puedes escanearlo, introduce esta clave en la app:",
+    enterCode: "2. Escribe el código de 6 cifras que muestra la app.",
+    codeLabel: "Código",
+    verify: "Verificar y activar",
+    verifying: "Verificando…",
+    activated: "Verificación en dos pasos activada.",
+    disable: "Desactivar",
+    disableConfirm: "Para desactivarla, escribe un código actual de tu app.",
+    disabledOk: "Verificación en dos pasos desactivada.",
+    invalidCode: "El código no es correcto o ha caducado. Prueba con el siguiente.",
+    lostDevice:
+      "Si pierdes el acceso a tu app de autenticación, escríbenos desde el email de tu cuenta para recuperar el acceso.",
+    banner: "Protege tu cuenta: activa la verificación en dos pasos.",
+    bannerCta: "Activar ahora",
+    challengeTitle: "Verificación en dos pasos",
+    challengeDescription: "Escribe el código de 6 cifras de tu app de autenticación.",
+    challengeSubmit: "Entrar",
   },
   dashboard: {
     greeting: (name: string) => (name ? `Hola, ${name}` : "Hola"),
