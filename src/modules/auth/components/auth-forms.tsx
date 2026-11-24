@@ -79,6 +79,27 @@ export function SignupForm() {
         <Field label={es.common.email} name="email" type="email" autoComplete="email" required error={state.fieldErrors?.email} />
         <Field label={es.common.password} name="password" type="password" autoComplete="new-password" required hint={t.signup.passwordHint} error={state.fieldErrors?.password} />
         <p className="text-body-sm text-ink-muted">{t.signup.privacyNote}</p>
+        <div className="flex flex-col gap-1">
+          <label className="flex items-start gap-2 text-body-sm text-ink">
+            <input
+              type="checkbox"
+              name="acceptLegal"
+              required
+              aria-invalid={state.fieldErrors?.acceptLegal ? true : undefined}
+              className="mt-1 size-4 accent-primary"
+            />
+            <span>
+              {es.legal.acceptPrefix}{" "}
+              <a href="/legal/terminos" target="_blank" className="text-primary underline">{es.legal.terms}</a>,{" "}
+              <a href="/legal/privacidad" target="_blank" className="text-primary underline">{es.legal.privacy}</a>{" "}
+              {es.legal.and}{" "}
+              <a href="/legal/encargo" target="_blank" className="text-primary underline">{es.legal.dpa}</a>.
+            </span>
+          </label>
+          {state.fieldErrors?.acceptLegal ? (
+            <p className="text-body-sm text-danger">{state.fieldErrors.acceptLegal}</p>
+          ) : null}
+        </div>
         <Button type="submit" disabled={pending}>
           {pending ? t.signup.pending : t.signup.submit}
         </Button>

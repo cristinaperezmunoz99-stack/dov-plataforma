@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { es } from "@/lib/i18n/es";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -7,6 +8,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="w-full max-w-sm rounded-lg border border-border bg-surface p-6 sm:p-8">
         {children}
       </div>
+      <nav className="mt-6 flex gap-4 text-body-sm">
+        <Link href="/legal/terminos" className="text-ink-muted hover:text-ink">{es.legal.footer.terms}</Link>
+        <Link href="/legal/privacidad" className="text-ink-muted hover:text-ink">{es.legal.footer.privacy}</Link>
+        <Link href="/legal/proveedores" className="text-ink-muted hover:text-ink">{es.legal.footer.providers}</Link>
+      </nav>
     </main>
   );
 }

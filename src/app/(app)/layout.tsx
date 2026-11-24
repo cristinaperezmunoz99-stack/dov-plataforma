@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { missingLegalAcceptances } from "@/modules/legal/queries";
 import { Button } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth";
 import { es } from "@/lib/i18n/es";
@@ -6,6 +8,7 @@ import { signOut } from "@/modules/auth/actions";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser();
+  if ((await missingLegalAcceptances(user.id)).length > 0) redirect("/condiciones");
   return (
     <div className="flex min-h-full flex-1 flex-col">
       <header className="border-b border-border bg-surface print:hidden">

@@ -4,6 +4,7 @@ import { aiProvider } from "@/lib/ai";
 import { estimateCostUsd } from "@/lib/ai/pricing";
 import type { ChatTurn } from "@/lib/ai/provider";
 import { es } from "@/lib/i18n/es";
+import { missingLegalAcceptances } from "@/modules/legal/queries";
 import { privacyBlockMessage } from "@/lib/privacy/pii-check";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
   const { data: claimsData } = await supabase.auth.getClaims();
   const userId = claimsData?.claims?.sub;
   if (!userId) return fail(401, t.unauthorized);
+  if ((await missingLegalAcceptances(userId)).length > 0) return fail(403, es.legal.gateDescription);
 
   // 2. Validación de la entrada
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));

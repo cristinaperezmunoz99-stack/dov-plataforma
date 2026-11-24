@@ -9,6 +9,32 @@ export const es = {
     name: "Asistentes",
     tagline: "Espacio de trabajo para psicólogos, caso a caso.",
   },
+  legal: {
+    titles: {
+      terminos: "Condiciones de uso",
+      privacidad: "Política de privacidad",
+      encargo: "Contrato de encargo del tratamiento",
+      proveedores: "Proveedores que tratan datos",
+    },
+    version: (v: string) => `Versión del ${v}`,
+    draft: "Borrador pendiente de revisión legal.",
+    acceptPrefix: "He leído y acepto las",
+    terms: "condiciones de uso",
+    privacy: "la política de privacidad",
+    dpa: "el contrato de encargo del tratamiento",
+    and: "y",
+    acceptRequired: "Para crear la cuenta tienes que aceptar las condiciones.",
+    gateTitle: "Revisa las condiciones",
+    gateDescription:
+      "Para seguir usando la plataforma necesitamos que aceptes la versión actual de estos documentos.",
+    gateSubmit: "Aceptar y continuar",
+    gatePending: "Guardando…",
+    providersIntro:
+      "Estos son los proveedores que tratan datos por nuestra cuenta. Te avisaremos antes de añadir o cambiar uno que trate datos de tus casos.",
+    providersColumns: { name: "Proveedor", purpose: "Para qué", location: "Dónde", safeguards: "Garantías" },
+    planned: "Próximamente",
+    footer: { terms: "Condiciones", privacy: "Privacidad", dpa: "Encargo", providers: "Proveedores" },
+  },
   rateLimit: {
     tooMany: "Demasiados intentos. Espera unos minutos y vuelve a probar.",
   },

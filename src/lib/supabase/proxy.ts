@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv } from "./env";
 
 /** Rutas accesibles sin sesión. */
-const PUBLIC_PATHS = ["/login", "/registro", "/recuperar", "/auth"];
+const PUBLIC_PATHS = ["/login", "/registro", "/recuperar", "/auth", "/legal"];
 /** Rutas de acceso de las que se redirige a quien ya tiene sesión. */
 const AUTH_ONLY_PATHS = ["/login", "/registro", "/recuperar"];
 

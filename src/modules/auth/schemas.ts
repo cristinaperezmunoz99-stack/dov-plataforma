@@ -15,6 +15,7 @@ export const signupSchema = z.object({
   name: z.string().trim().min(1, v.required).max(120, v.nameMax),
   email,
   password,
+  acceptLegal: z.literal("on", { error: es.legal.acceptRequired }),
 });
 
 export const recoverSchema = z.object({ email });

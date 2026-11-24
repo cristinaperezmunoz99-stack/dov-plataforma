@@ -15,7 +15,7 @@ export async function GET() {
   const userId = claims?.claims?.sub;
   if (!userId) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  const [profile, cases, memory, resources, conversations, messages, usage, security, categories, assistants] =
+  const [profile, cases, memory, resources, conversations, messages, usage, security, categories, assistants, legal] =
     await Promise.all([
       supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
       supabase.from("cases").select("*").order("created_at"),
@@ -27,9 +27,10 @@ export async function GET() {
       supabase.from("security_events").select("event_type, ip, user_agent, created_at").order("created_at"),
       supabase.from("memory_categories").select("id, slug, name"),
       supabase.from("assistants").select("id, slug, name"),
+      supabase.from("legal_acceptances").select("document, version, accepted_at").order("accepted_at"),
     ]);
 
-  const failed = [profile, cases, memory, resources, conversations, messages, usage, security, categories, assistants].find(
+  const failed = [profile, cases, memory, resources, conversations, messages, usage, security, categories, assistants, legal].find(
     (r) => r.error,
   );
   if (failed?.error) {
@@ -50,6 +51,7 @@ export async function GET() {
     messages: messages.data,
     usage_events: usage.data,
     security_events: security.data,
+    legal_acceptances: legal.data,
     reference: { memory_categories: categories.data, assistants: assistants.data },
   };
   const date = new Date().toISOString().slice(0, 10);

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { es } from "@/lib/i18n/es";
 import { logSecurityEvent } from "@/lib/security/events";
 import { authRateAllowed } from "@/lib/security/rate-limit";
+import { LEGAL_VERSIONS } from "@/lib/legal/documents";
 import {
   type FormState,
   loginSchema,
@@ -60,7 +61,7 @@ export async function signUp(_prev: FormState, formData: FormData): Promise<Form
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
-      data: { name: parsed.data.name },
+      data: { name: parsed.data.name, legal: LEGAL_VERSIONS },
       emailRedirectTo: `${await getOrigin()}/auth/confirm?next=/dashboard`,
     },
   });
