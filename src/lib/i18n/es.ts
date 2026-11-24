@@ -9,6 +9,9 @@ export const es = {
     name: "Asistentes",
     tagline: "Espacio de trabajo para psicólogos, caso a caso.",
   },
+  rateLimit: {
+    tooMany: "Demasiados intentos. Espera unos minutos y vuelve a probar.",
+  },
   common: {
     email: "Email",
     password: "Contraseña",

@@ -453,7 +453,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      auth_rate_hit: {
+        Args: {
+          p_kind: string
+          p_key_hash: string
+          p_window_seconds: number
+          p_max: number
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

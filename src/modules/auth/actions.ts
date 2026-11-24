@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { es } from "@/lib/i18n/es";
 import { logSecurityEvent } from "@/lib/security/events";
+import { authRateAllowed } from "@/lib/security/rate-limit";
 import {
   type FormState,
   loginSchema,
@@ -25,6 +26,15 @@ export async function signIn(_prev: FormState, formData: FormData): Promise<Form
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) };
 
+  if (
+    !(await authRateAllowed([
+      { kind: "login_ip", value: "ip" },
+      { kind: "login_email", value: parsed.data.email },
+    ]))
+  ) {
+    return { error: es.rateLimit.tooMany };
+  }
+
   const supabase = await createClient();
   const { data: signInData, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) {
@@ -40,6 +50,10 @@ export async function signIn(_prev: FormState, formData: FormData): Promise<Form
 export async function signUp(_prev: FormState, formData: FormData): Promise<FormState> {
   const parsed = signupSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) };
+
+  if (!(await authRateAllowed([{ kind: "signup_ip", value: "ip" }]))) {
+    return { error: es.rateLimit.tooMany };
+  }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signUp({
@@ -69,6 +83,13 @@ export async function requestPasswordReset(
 ): Promise<FormState> {
   const parsed = recoverSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) };
+
+  const allowed = await authRateAllowed([
+    { kind: "recover_ip", value: "ip" },
+    { kind: "recover_email", value: parsed.data.email },
+  ]);
+  // Si se supera el límite no se envía nada, pero la respuesta es la misma.
+  if (!allowed) return { success: es.auth.recover.sent };
 
   const supabase = await createClient();
   await supabase.auth.resetPasswordForEmail(parsed.data.email, {

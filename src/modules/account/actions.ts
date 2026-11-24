@@ -8,6 +8,7 @@ import { es } from "@/lib/i18n/es";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getSupabaseEnv } from "@/lib/supabase/env";
 import { createClient } from "@/lib/supabase/server";
+import { authRateAllowed } from "@/lib/security/rate-limit";
 
 export type DeleteAccountState = { error?: string };
 
@@ -32,6 +33,10 @@ export async function deleteAccount(
   });
   if (!parsed.success || parsed.data.confirmEmail !== user.email.toLowerCase()) {
     return { error: es.account.delete.mismatch };
+  }
+
+  if (!(await authRateAllowed([{ kind: "reauth_user", value: user.id }]))) {
+    return { error: es.rateLimit.tooMany };
   }
 
   // Reautenticación en un cliente aislado, sin tocar la sesión actual.
