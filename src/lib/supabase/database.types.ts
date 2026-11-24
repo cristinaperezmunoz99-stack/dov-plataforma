@@ -63,6 +63,8 @@ export type Database = {
           slug: string
           sort_order: number
           save_targets: string[]
+          usage_tips: string
+          starters: string[]
         }
         Insert: {
           active?: boolean
@@ -73,6 +75,8 @@ export type Database = {
           slug: string
           sort_order?: number
           save_targets?: string[]
+          usage_tips?: string
+          starters?: string[]
         }
         Update: {
           active?: boolean
@@ -83,6 +87,8 @@ export type Database = {
           slug?: string
           sort_order?: number
           save_targets?: string[]
+          usage_tips?: string
+          starters?: string[]
         }
         Relationships: []
       }

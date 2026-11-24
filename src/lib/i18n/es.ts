@@ -212,6 +212,8 @@ export const es = {
     disclaimer:
       "Las respuestas de los asistentes son un apoyo. El criterio clínico y las decisiones son tuyos.",
     empty: "Escribe el primer mensaje para empezar.",
+    tipsTitle: "Para sacarle partido",
+    startersTitle: "Puedes empezar con:",
     errors: {
       generic: "No se ha podido obtener respuesta. Inténtalo de nuevo.",
       rateLimited: "Has enviado muchos mensajes seguidos. Espera un minuto e inténtalo de nuevo.",

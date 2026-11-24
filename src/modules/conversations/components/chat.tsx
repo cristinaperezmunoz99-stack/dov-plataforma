@@ -19,6 +19,8 @@ export function Chat({
   assistantName,
   initialMessages,
   targets,
+  usageTips = "",
+  starters = [],
   disabled,
 }: {
   caseId: string;
@@ -26,6 +28,8 @@ export function Chat({
   assistantName: string;
   initialMessages: Message[];
   targets: SaveTarget[];
+  usageTips?: string;
+  starters?: string[];
   disabled?: boolean;
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -99,7 +103,40 @@ export function Chat({
     <div className="flex flex-col gap-4">
       <div className="flex min-h-64 flex-col gap-4 rounded-lg border border-border bg-surface p-6">
         {messages.length === 0 ? (
-          <p className="text-body-sm text-ink-muted">{c.empty}</p>
+          usageTips || starters.length ? (
+            <div className="flex flex-col gap-4 rounded-md bg-surface-sunken p-4">
+              {usageTips ? (
+                <div>
+                  <p className="text-label text-ink">{c.tipsTitle}</p>
+                  <div className="mt-1 text-body-sm">
+                    <Markdown>{usageTips}</Markdown>
+                  </div>
+                </div>
+              ) : null}
+              {starters.length && !disabled ? (
+                <div>
+                  <p className="text-label text-ink">{c.startersTitle}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {starters.map((st) => (
+                      <button
+                        key={st}
+                        type="button"
+                        onClick={() => {
+                          setInput(st);
+                          document.getElementById("chat-input")?.focus();
+                        }}
+                        className="rounded-md border border-border-strong bg-surface px-3 py-2 text-left text-body-sm text-ink hover:bg-primary-soft"
+                      >
+                        {st}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <p className="text-body-sm text-ink-muted">{c.empty}</p>
+          )
         ) : (
           messages.map((m) => (
             <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>

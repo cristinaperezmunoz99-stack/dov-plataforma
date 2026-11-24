@@ -39,7 +39,7 @@ export async function getConversation(caseId: string, conversationId: string) {
   const [{ data: assistant }, { data: messages }] = await Promise.all([
     supabase
       .from("assistants")
-      .select("name, active, save_targets")
+      .select("name, active, save_targets, usage_tips, starters")
       .eq("id", conversation.assistant_id)
       .single(),
     supabase
@@ -54,6 +54,8 @@ export async function getConversation(caseId: string, conversationId: string) {
     assistant_name: assistant?.name ?? "",
     assistant_active: assistant?.active ?? false,
     assistant_save_targets: assistant?.save_targets ?? [],
+    assistant_usage_tips: assistant?.usage_tips ?? "",
+    assistant_starters: assistant?.starters ?? [],
     messages: (messages ?? []).map((m) => ({
       id: m.id,
       role: m.role as "user" | "assistant",

@@ -35,6 +35,8 @@ export default async function ConversationPage({
       <Chat
         caseId={caseId}
         targets={resolveTargets(conversation.assistant_save_targets, categories)}
+        usageTips={conversation.assistant_usage_tips}
+        starters={conversation.assistant_starters}
         conversationId={conversation.id}
         assistantName={conversation.assistant_name}
         initialMessages={conversation.messages}
