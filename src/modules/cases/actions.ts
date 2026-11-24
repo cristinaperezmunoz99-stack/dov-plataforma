@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { es } from "@/lib/i18n/es";
 import { privacyBlockMessage } from "@/lib/privacy/pii-check";
+import { logSecurityEvent } from "@/lib/security/events";
 import { createClient } from "@/lib/supabase/server";
 import {
   type CaseFormState,
@@ -98,7 +99,7 @@ export async function deleteCase(
   _prev: DeleteCaseState,
   formData: FormData,
 ): Promise<DeleteCaseState> {
-  await requireUser();
+  const user = await requireUser();
   if (!caseIdSchema.safeParse(caseId).success) return { error: es.cases.notFound };
 
   const supabase = await createClient();
@@ -117,6 +118,7 @@ export async function deleteCase(
     console.error("deleteCase", error.code);
     return { error: es.common.genericError };
   }
+  await logSecurityEvent(user.id, "case_deleted");
 
   revalidatePath("/casos");
   redirect("/casos");

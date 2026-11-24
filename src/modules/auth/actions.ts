@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { es } from "@/lib/i18n/es";
+import { logSecurityEvent } from "@/lib/security/events";
 import {
   type FormState,
   loginSchema,
@@ -25,13 +26,14 @@ export async function signIn(_prev: FormState, formData: FormData): Promise<Form
   if (!parsed.success) return { fieldErrors: toFieldErrors(parsed.error) };
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword(parsed.data);
+  const { data: signInData, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) {
     if (error.code === "email_not_confirmed") {
       return { error: es.auth.login.notConfirmed };
     }
     return { error: es.auth.login.invalid };
   }
+  if (signInData.user) await logSecurityEvent(signInData.user.id, "login");
   redirect("/dashboard");
 }
 
@@ -88,6 +90,7 @@ export async function updatePassword(
   if (!data?.claims?.sub) redirect("/login");
 
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (!error) await logSecurityEvent(data.claims.sub, "password_changed");
   if (error) {
     if (error.code === "weak_password" || error.code === "same_password") {
       return { fieldErrors: { password: es.auth.validation.passwordMin } };
@@ -99,6 +102,8 @@ export async function updatePassword(
 
 export async function signOut() {
   const supabase = await createClient();
+  const { data } = await supabase.auth.getClaims();
+  if (data?.claims?.sub) await logSecurityEvent(data.claims.sub, "logout");
   await supabase.auth.signOut();
   redirect("/login");
 }

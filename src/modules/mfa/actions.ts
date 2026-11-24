@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { es } from "@/lib/i18n/es";
+import { logSecurityEvent } from "@/lib/security/events";
 import { createClient } from "@/lib/supabase/server";
 
 const codeSchema = z.string().trim().regex(/^\d{6}$/);
@@ -56,8 +57,9 @@ export async function verifyEnrollment(
   const code = codeSchema.safeParse(formData.get("code"));
   if (!code.success || !uuid.safeParse(factorId).success) return { error: es.mfa.invalidCode };
   const supabase = await createClient();
-  const { error } = await supabase.auth.mfa.challengeAndVerify({ factorId, code: code.data });
+  const { data, error } = await supabase.auth.mfa.challengeAndVerify({ factorId, code: code.data });
   if (error) return { error: es.mfa.invalidCode };
+  await logSecurityEvent(data.user.id, "mfa_enabled");
   revalidatePath("/ajustes");
   return { success: es.mfa.activated };
 }
@@ -78,6 +80,8 @@ export async function disableMfa(_prev: CodeState, formData: FormData): Promise<
     console.error("mfa unenroll", error.code);
     return { error: es.common.genericError };
   }
+  const { data: claims } = await supabase.auth.getClaims();
+  if (claims?.claims?.sub) await logSecurityEvent(claims.claims.sub, "mfa_disabled");
   revalidatePath("/ajustes");
   return { success: es.mfa.disabledOk };
 }
@@ -88,11 +92,12 @@ export async function verifyLoginCode(_prev: CodeState, formData: FormData): Pro
   if (!code.success) return { error: es.mfa.invalidCode };
   const { supabase, factor } = await getVerifiedTotp();
   if (!factor) redirect("/dashboard");
-  const { error } = await supabase.auth.mfa.challengeAndVerify({
+  const { data, error } = await supabase.auth.mfa.challengeAndVerify({
     factorId: factor.id,
     code: code.data,
   });
   if (error) return { error: es.mfa.invalidCode };
+  await logSecurityEvent(data.user.id, "mfa_verified");
   redirect("/dashboard");
 }
 
