@@ -18,6 +18,9 @@ const newsreader = localFont({
   display: "swap",
 });
 
+// Todas las páginas se generan por petición: necesario para aplicar el nonce de la CSP.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: es.app.name,
   description: es.app.tagline,

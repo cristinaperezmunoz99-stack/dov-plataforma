@@ -11,13 +11,44 @@ function matches(pathname: string, paths: string[]) {
   return paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
+/** Política de seguridad de contenido con nonce por petición. */
+function buildCsp(nonce: string) {
+  const isDev = process.env.NODE_ENV === "development";
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ""}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' blob: data:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ].join("; ");
+}
+
 /**
- * Refresca la sesión de Supabase en cada petición y aplica redirecciones básicas.
+ * Refresca la sesión de Supabase en cada petición, añade la CSP y aplica redirecciones básicas.
  * Es una comprobación optimista: cada página y acción vuelve a verificar al usuario.
  */
 export async function updateSession(request: NextRequest) {
   const { url, publishableKey } = getSupabaseEnv();
-  let response = NextResponse.next({ request });
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+  const csp = buildCsp(nonce);
+
+  // Pasa la CSP y el nonce a la petición (Next.js los aplica a sus scripts) y a la respuesta.
+  const next = () => {
+    const headers = new Headers(request.headers);
+    headers.set("x-nonce", nonce);
+    headers.set("Content-Security-Policy", csp);
+    const res = NextResponse.next({ request: { headers } });
+    res.headers.set("Content-Security-Policy", csp);
+    return res;
+  };
+
+  let response = next();
   let cacheHeaders: Record<string, string> = {};
 
   const supabase = createServerClient(url, publishableKey, {
@@ -29,7 +60,7 @@ export async function updateSession(request: NextRequest) {
         cookiesToSet.forEach(({ name, value }) =>
           request.cookies.set(name, value),
         );
-        response = NextResponse.next({ request });
+        response = next();
         cookiesToSet.forEach(({ name, value, options }) =>
           response.cookies.set(name, value, options),
         );
