@@ -8,6 +8,13 @@ updates:
     groups:
       dependencias-menores:
         update-types: [minor, patch]
+    ignore:
+      # Los tipos de Node deben coincidir con la versión de Node de Vercel (22), no con la última.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # TypeScript 7 (compilador nativo) aún no es compatible con este proyecto: revisar a mano.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
