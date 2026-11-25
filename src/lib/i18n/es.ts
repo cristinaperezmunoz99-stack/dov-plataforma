@@ -8,6 +8,17 @@ export const es = {
   app: {
     name: "Asistentes",
     tagline: "Espacio de trabajo para psicólogos, caso a caso.",
+    supportNote:
+      "Los asistentes te ayudan a organizar y elaborar el trabajo clínico. El criterio y las decisiones son tuyos.",
+  },
+  authShell: {
+    eyebrow: "Espacio de trabajo para psicólogos",
+    title: "Tu trabajo clínico,",
+    titleAccent: "caso a caso.",
+    lead: "Los asistentes te ayudan a ordenar la evaluación, la formulación y el plan de cada caso. El criterio clínico sigue siendo tuyo.",
+    bubble1: "«ya está guardado en el caso»",
+    bubble2: "«no hace falta repetirlo»",
+    bubble3: "«CASO-7F3A, sin nombres»",
   },
   legal: {
     titles: {
@@ -105,6 +116,9 @@ export const es = {
     home: "Inicio",
     cases: "Mis casos",
     settings: "Ajustes",
+    recent: "Recientes",
+    main: "Navegación principal",
+    brandBy: "de Darle Otra Vuelta",
   },
   settings: {
     title: "Ajustes",
@@ -159,6 +173,9 @@ export const es = {
   },
   dashboard: {
     greeting: (name: string) => (name ? `Hola, ${name}` : "Hola"),
+    title: "Tus",
+    titleAccent: "casos",
+    createCard: "Crear un caso nuevo",
     recent: "Casos recientes",
     viewAll: "Ver todos los casos",
     empty: "Aún no tienes casos. Crea el primero para empezar a trabajar.",
@@ -166,6 +183,7 @@ export const es = {
   cases: {
     title: "Mis casos",
     new: "Nuevo caso",
+    breadcrumb: "Ruta",
     searchLabel: "Buscar casos",
     searchPlaceholder: "Código o título",
     search: "Buscar",

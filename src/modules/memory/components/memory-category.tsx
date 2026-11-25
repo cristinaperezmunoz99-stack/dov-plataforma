@@ -14,7 +14,7 @@ import type { MemoryFormState } from "../schemas";
 const m = es.memory;
 
 const textareaClass =
-  "min-h-24 w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-body text-ink placeholder:text-ink-muted";
+  "min-h-24 w-full rounded-md border-2 border-border-strong bg-surface px-4 py-3 text-body text-ink placeholder:text-ink-muted";
 
 function FormMessages({ state }: { state: MemoryFormState }) {
   if (state.privacyWarning) return <Alert tone="warning">{state.privacyWarning}</Alert>;
@@ -145,8 +145,10 @@ export function MemoryCategorySection({
   return (
     <section className="rounded-lg border border-border bg-surface p-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-heading text-ink">{category.name}</h2>
-        {single && shown.length > 0 ? <span className="text-caption text-ink-muted">{m.current}</span> : null}
+        <h2 className="font-serif text-title text-ink">{category.name}</h2>
+        {single && shown.length > 0 ? (
+          <span className="rounded-full bg-success-soft px-3 py-1 text-caption font-semibold text-success">{m.current}</span>
+        ) : null}
       </div>
       {category.description ? (
         <p className="mt-1 text-body-sm text-ink-muted">{category.description}</p>

@@ -12,7 +12,7 @@ export function Field({ label, name, error, hint, id, ...props }: FieldProps) {
   const describedBy = error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined;
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={inputId} className="text-label text-ink">
+      <label htmlFor={inputId} className="text-label font-semibold text-ink">
         {label}
       </label>
       <input
@@ -20,7 +20,7 @@ export function Field({ label, name, error, hint, id, ...props }: FieldProps) {
         name={name}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
-        className={`h-10 rounded-md border bg-surface px-3 text-body text-ink placeholder:text-ink-muted ${
+        className={`h-12 rounded-full border-2 bg-surface px-5 text-body text-ink placeholder:text-ink-muted ${
           error ? "border-danger" : "border-border-strong"
         }`}
         {...props}

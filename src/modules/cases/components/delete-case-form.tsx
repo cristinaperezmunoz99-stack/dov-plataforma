@@ -27,7 +27,7 @@ export function DeleteCaseForm({
           <button
             type="submit"
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border border-danger bg-surface px-4 text-label text-danger hover:bg-danger-soft disabled:opacity-60"
+            className="inline-flex h-11 items-center rounded-full border-2 border-danger bg-surface px-4 text-label text-danger hover:bg-danger-soft disabled:opacity-60"
           >
             {pending ? d.deleting : d.submit}
           </button>

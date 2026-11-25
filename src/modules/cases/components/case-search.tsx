@@ -15,11 +15,11 @@ export function CaseSearch({ defaultValue = "" }: { defaultValue?: string }) {
         defaultValue={defaultValue}
         placeholder={es.cases.searchPlaceholder}
         maxLength={60}
-        className="h-10 w-full max-w-sm rounded-md border border-border-strong bg-surface px-3 text-body text-ink placeholder:text-ink-muted"
+        className="h-12 w-full max-w-sm rounded-full border-2 border-border-strong bg-surface px-5 text-body text-ink placeholder:text-ink-muted"
       />
       <button
         type="submit"
-        className="inline-flex h-10 items-center rounded-md border border-border-strong bg-surface px-4 text-label text-ink hover:bg-surface-sunken"
+        className="inline-flex h-11 items-center rounded-full border-2 border-border-strong bg-surface px-4 text-label text-ink hover:bg-surface-sunken"
       >
         {es.cases.search}
       </button>

@@ -5,6 +5,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { DPA_MD, PRIVACY_MD, TERMS_MD } from "@/content/legal/documents";
 import { SUBPROCESSORS } from "@/content/legal/subprocessors";
+import { BrandMark } from "@/components/app-shell/brand-mark";
 import { es } from "@/lib/i18n/es";
 import { LEGAL_IS_DRAFT, LEGAL_PAGES, LEGAL_VERSIONS, type LegalSlug } from "@/lib/legal/documents";
 
@@ -49,9 +50,7 @@ export default async function LegalPage({ params }: PageProps<"/legal/[slug]">) 
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <Link href="/" className="font-serif text-heading text-ink">
-        {es.app.name}
-      </Link>
+      <BrandMark href="/" />
       <h1 className="mt-8 font-serif text-display text-ink">{t.titles[slug]}</h1>
       <p className="mt-2 text-body-sm text-ink-muted">{t.version(version)}</p>
       {LEGAL_IS_DRAFT ? (

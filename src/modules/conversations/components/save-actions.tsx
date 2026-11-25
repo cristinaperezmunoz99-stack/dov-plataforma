@@ -47,7 +47,7 @@ export function SaveActions({
   }
 
   const buttonClass =
-    "inline-flex h-8 items-center rounded-md border border-border-strong bg-surface px-3 text-label text-ink hover:bg-surface-sunken disabled:opacity-60";
+    "inline-flex h-9 items-center rounded-full border-2 border-border-strong bg-surface px-3 text-label text-ink hover:bg-surface-sunken disabled:opacity-60";
 
   return (
     <div className="mt-3 flex flex-col gap-2">

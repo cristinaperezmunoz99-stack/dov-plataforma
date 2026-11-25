@@ -101,13 +101,13 @@ export function Chat({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex min-h-64 flex-col gap-4 rounded-lg border border-border bg-surface p-6">
+      <div className="flex min-h-64 flex-col gap-6">
         {messages.length === 0 ? (
           usageTips || starters.length ? (
-            <div className="flex flex-col gap-4 rounded-md bg-surface-sunken p-4">
+            <div className="flex flex-col gap-4 rounded-lg bg-surface-sunken p-6">
               {usageTips ? (
                 <div>
-                  <p className="text-label text-ink">{c.tipsTitle}</p>
+                  <p className="eyebrow text-primary">{c.tipsTitle}</p>
                   <div className="mt-1 text-body-sm">
                     <Markdown>{usageTips}</Markdown>
                   </div>
@@ -115,7 +115,7 @@ export function Chat({
               ) : null}
               {starters.length && !disabled ? (
                 <div>
-                  <p className="text-label text-ink">{c.startersTitle}</p>
+                  <p className="eyebrow text-primary">{c.startersTitle}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {starters.map((st) => (
                       <button
@@ -125,7 +125,7 @@ export function Chat({
                           setInput(st);
                           document.getElementById("chat-input")?.focus();
                         }}
-                        className="rounded-md border border-border-strong bg-surface px-3 py-2 text-left text-body-sm text-ink hover:bg-primary-soft"
+                        className="rounded-full border-2 border-lavender bg-surface px-4 py-2 text-left text-body-sm text-ink hover:bg-primary-soft"
                       >
                         {st}
                       </button>
@@ -141,11 +141,13 @@ export function Chat({
           messages.map((m) => (
             <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
               <div
-                className={`max-w-[85%] rounded-md px-4 py-3 ${
-                  m.role === "user" ? "bg-primary-soft text-ink" : "bg-surface-sunken text-ink"
-                }`}
+                className={
+                  m.role === "user"
+                    ? "max-w-4/5 rounded-lg rounded-br-sm bg-lavender-soft px-5 py-4 text-ink"
+                    : "w-full max-w-3xl rounded-lg rounded-tl-sm border border-border bg-surface px-6 py-5 text-ink"
+                }
               >
-                <p className="mb-1 text-caption text-ink-muted">{m.role === "user" ? c.you : assistantName}</p>
+                <p className={`mb-2 eyebrow ${m.role === "user" ? "text-primary-hover" : "text-primary"}`}>{m.role === "user" ? c.you : assistantName}</p>
                 {m.role === "assistant" ? (
                   m.content ? (
                     <>
@@ -199,7 +201,7 @@ export function Chat({
             maxLength={20000}
             placeholder={c.placeholder}
             disabled={pending}
-            className="w-full rounded-md border border-border-strong bg-surface px-3 py-2 text-body text-ink placeholder:text-ink-muted"
+            className="w-full rounded-lg border-2 border-border-strong bg-surface px-5 py-4 text-body text-ink placeholder:text-ink-muted"
           />
           <div className="flex items-center justify-between gap-4">
             <p className="text-caption text-ink-muted">{c.disclaimer}</p>

@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
 /*
-  Tokens del sistema de diseño "Asistentes".
+  Tokens del sistema de diseño "Asistentes", con la identidad de Darle Otra Vuelta.
   Fuente de verdad: artefacto Design System (project/tokens.json).
   No escribir colores ni medidas sueltos en componentes: usar siempre estas variables
-  o sus utilidades de Tailwind (bg-surface, text-ink, rounded-md, etc.).
+  o sus utilidades de Tailwind (bg-surface, text-ink, rounded-lg, etc.).
 */
 :root {
   /* Color */
-  --bg: #fbf8f6;
+  --bg: #fff1eb;
+  --grid-line: #f7e2d7;
   --surface: #ffffff;
-  --surface-sunken: #f3eeea;
-  --border: #e4ddd8;
-  --border-strong: #8f8780;
+  --surface-sunken: #f7e2d7;
+  --border: #efd6c9;
+  --border-strong: #222222;
   --ink: #222222;
-  --ink-muted: #5e5955;
+  --ink-muted: #5a4e49;
   --on-primary: #ffffff;
-  --primary: #5b47e0;
-  --primary-hover: #4a37c8;
-  --primary-soft: #eeeafe;
+  --primary: #5b49e0;
+  --primary-hover: #3a2db0;
+  --primary-soft: #f1eafe;
   --focus: var(--primary);
   --lavender: #bc9bf3;
+  --lavender-soft: #e4d8fb;
   --lime: #aadd66;
+  --night: #222222;
+  --on-night: #fff1eb;
   --success: #3f7a1f;
   --success-soft: #eef7e0;
   --warning: #8a5a00;
@@ -32,10 +36,12 @@
   /* Sombras */
   --shadow-sm: 0 1px 2px rgba(34, 34, 34, 0.06);
   --shadow-md: 0 8px 24px rgba(34, 34, 34, 0.1);
+  --shadow-lg: 0 30px 70px -30px rgba(58, 45, 176, 0.55);
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-grid-line: var(--grid-line);
   --color-surface: var(--surface);
   --color-surface-sunken: var(--surface-sunken);
   --color-border: var(--border);
@@ -48,7 +54,10 @@
   --color-primary-soft: var(--primary-soft);
   --color-focus: var(--focus);
   --color-lavender: var(--lavender);
+  --color-lavender-soft: var(--lavender-soft);
   --color-lime: var(--lime);
+  --color-night: var(--night);
+  --color-on-night: var(--on-night);
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
   --color-warning: var(--warning);
@@ -56,23 +65,31 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
 
-  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-instrument-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-dm-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-brand: var(--font-bricolage), var(--font-dm-sans), system-ui, sans-serif;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
 
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
 
-  /* Escala tipográfica (text-display, text-title, text-heading, text-body, text-body-sm, text-label, text-caption) */
-  --text-display: 32px;
-  --text-display--line-height: 40px;
-  --text-display--font-weight: 500;
-  --text-title: 24px;
-  --text-title--line-height: 32px;
-  --text-title--font-weight: 500;
+  /* Escala tipográfica (text-hero, text-display, text-title, text-heading, text-body, text-body-sm, text-label, text-caption) */
+  --text-mega: clamp(56px, 6vw, 84px);
+  --text-mega--line-height: 0.92;
+  --text-mega--letter-spacing: -0.03em;
+  --text-hero: 64px;
+  --text-hero--line-height: 0.95;
+  --text-hero--letter-spacing: -0.03em;
+  --text-display: 48px;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-title: 30px;
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.01em;
   --text-heading: 17px;
   --text-heading--line-height: 24px;
   --text-heading--font-weight: 600;
@@ -80,11 +97,49 @@
   --text-body--line-height: 24px;
   --text-body-sm: 13px;
   --text-body-sm--line-height: 20px;
-  --text-label: 13px;
-  --text-label--line-height: 18px;
+  --text-label: 14px;
+  --text-label--line-height: 20px;
   --text-label--font-weight: 500;
   --text-caption: 12px;
   --text-caption--line-height: 16px;
+}
+
+/* Etiqueta de marca: mayúsculas estrechas de Bricolage Grotesque. */
+@utility eyebrow {
+  font-family: var(--font-brand);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+/* Logotipo textual: hasta que exista el símbolo definitivo. */
+@utility wordmark {
+  font-family: var(--font-brand);
+  font-weight: 800;
+  font-stretch: 85%;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Cuadrícula de papel de la marca, solo para fondos amplios. */
+@utility bg-paper {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Trama de puntos sobre fondo oscuro. */
+@utility bg-night-dots {
+  background-color: var(--night);
+  background-image: radial-gradient(rgba(255, 241, 235, 0.06) 1px, transparent 1.3px);
+  background-size: 6px 6px;
 }
 
 body {

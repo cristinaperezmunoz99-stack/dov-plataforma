@@ -12,7 +12,7 @@ export function TextareaField({ label, name, error, hint, id, ...props }: Textar
   const describedBy = error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined;
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={inputId} className="text-label text-ink">
+      <label htmlFor={inputId} className="text-label font-semibold text-ink">
         {label}
       </label>
       <textarea
@@ -20,7 +20,7 @@ export function TextareaField({ label, name, error, hint, id, ...props }: Textar
         name={name}
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
-        className={`min-h-40 rounded-md border bg-surface px-3 py-2 text-body text-ink placeholder:text-ink-muted ${
+        className={`min-h-40 rounded-md border-2 bg-surface px-4 py-3 text-body text-ink placeholder:text-ink-muted ${
           error ? "border-danger" : "border-border-strong"
         }`}
         {...props}

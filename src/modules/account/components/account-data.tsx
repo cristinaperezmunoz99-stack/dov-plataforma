@@ -15,7 +15,7 @@ export function ExportData() {
       <p className="mt-1 text-body-sm text-ink-muted">{t.export.description}</p>
       <a
         href="/api/cuenta/exportar"
-        className="mt-4 inline-flex h-10 items-center rounded-md border border-border-strong bg-surface px-4 text-label text-ink hover:bg-surface-sunken"
+        className="mt-4 inline-flex h-11 items-center rounded-full border-2 border-border-strong bg-surface px-4 text-label text-ink hover:bg-surface-sunken"
       >
         {t.export.submit}
       </a>
@@ -37,7 +37,7 @@ export function DeleteAccountForm({ email }: { email: string }) {
           <button
             type="submit"
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border border-danger bg-surface px-4 text-label text-danger hover:bg-danger-soft disabled:opacity-60"
+            className="inline-flex h-11 items-center rounded-full border-2 border-danger bg-surface px-4 text-label text-danger hover:bg-danger-soft disabled:opacity-60"
           >
             {pending ? t.delete.deleting : t.delete.submit}
           </button>

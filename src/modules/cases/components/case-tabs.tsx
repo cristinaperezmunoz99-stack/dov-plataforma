@@ -38,8 +38,8 @@ export function CaseTabs({ caseId }: { caseId: string }) {
             key={tab.label}
             href={tab.href}
             aria-current={active ? "page" : undefined}
-            className={`-mb-px whitespace-nowrap border-b-2 px-3 py-2 text-label transition-colors ${
-              active ? "border-primary text-primary" : "border-transparent text-ink-muted hover:text-ink"
+            className={`-mb-px whitespace-nowrap border-b-3 px-4 py-3 text-label transition-colors ${
+              active ? "border-primary font-semibold text-ink" : "border-transparent text-ink-muted hover:text-ink"
             }`}
           >
             {tab.label}

@@ -1,12 +1,16 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "dark" | "secondary" | "ghost";
 
-const variants: Record<Variant, string> = {
+export const buttonVariants: Record<Variant, string> = {
   primary: "bg-primary text-on-primary hover:bg-primary-hover",
-  secondary: "border border-border-strong bg-surface text-ink hover:bg-surface-sunken",
+  dark: "bg-night text-on-night hover:bg-ink-muted",
+  secondary: "border-2 border-border-strong bg-transparent text-ink hover:bg-surface-sunken",
   ghost: "text-ink-muted hover:bg-surface-sunken hover:text-ink",
 };
+
+export const buttonBase =
+  "inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 text-label font-semibold transition-colors";
 
 export function Button({
   variant = "primary",
@@ -15,7 +19,7 @@ export function Button({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
     <button
-      className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-label transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${variants[variant]} ${className}`}
+      className={`${buttonBase} disabled:cursor-not-allowed disabled:opacity-60 ${buttonVariants[variant]} ${className}`}
       {...props}
     />
   );
