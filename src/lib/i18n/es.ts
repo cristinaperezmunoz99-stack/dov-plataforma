@@ -20,6 +20,18 @@ export const es = {
     bubble2: "«no hace falta repetirlo»",
     bubble3: "«CASO-7F3A, sin nombres»",
   },
+  usage: {
+    title: "Uso este mes",
+    planName: (name: string) => `Plan ${name}`,
+    count: (used: number, limit: number) => `${used} de ${limit} respuestas de asistente`,
+    renews: (date: string) => `Se renueva el ${date}`,
+    nearLimit: (remaining: number) =>
+      remaining === 1 ? "Te queda 1 respuesta de asistente este mes." : `Te quedan ${remaining} respuestas de asistente este mes.`,
+    limitReached: (date: string) =>
+      `Has llegado al límite de uso de este mes. Se renueva el ${date}. Tus casos y conversaciones siguen disponibles.`,
+    noPlan: "Para usar los asistentes necesitas una suscripción activa. Tus casos y conversaciones siguen disponibles.",
+    noPlanShort: "Sin suscripción activa",
+  },
   legal: {
     titles: {
       terminos: "Condiciones de uso",
@@ -122,6 +134,7 @@ export const es = {
   },
   settings: {
     title: "Ajustes",
+    plan: "Tu plan",
     security: "Seguridad",
     data: "Tus datos",
   },

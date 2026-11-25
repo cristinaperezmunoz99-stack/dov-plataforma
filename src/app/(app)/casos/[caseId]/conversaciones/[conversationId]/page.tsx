@@ -8,16 +8,28 @@ import { DeleteConversation } from "@/modules/conversations/components/delete-co
 import { getConversation } from "@/modules/conversations/queries";
 import { resolveTargets } from "@/modules/clinical-work/targets";
 import { listMemoryCategories } from "@/modules/memory/queries";
+import { formatDate } from "@/modules/cases/format";
+import { getUsageStatus } from "@/modules/usage/queries";
 
 export default async function ConversationPage({
   params,
 }: PageProps<"/casos/[caseId]/conversaciones/[conversationId]">) {
   const { caseId, conversationId } = await params;
-  const [conversation, categories] = await Promise.all([
+  const [conversation, categories, usage] = await Promise.all([
     getConversation(caseId, conversationId),
     listMemoryCategories(),
+    getUsageStatus(),
   ]);
   if (!conversation) notFound();
+
+  const renewal = formatDate(usage.periodEnd ?? usage.periodStart);
+  const usageNotice = usage.blocked
+    ? usage.reason === "no_plan"
+      ? es.usage.noPlan
+      : es.usage.limitReached(renewal)
+    : usage.nearLimit
+      ? es.usage.nearLimit(usage.remaining)
+      : null;
 
   return (
     <div className="flex flex-col gap-4">
@@ -40,7 +52,8 @@ export default async function ConversationPage({
         conversationId={conversation.id}
         assistantName={conversation.assistant_name}
         initialMessages={conversation.messages}
-        disabled={!conversation.assistant_active}
+        disabled={!conversation.assistant_active || usage.blocked}
+        usageNotice={conversation.assistant_active ? usageNotice : null}
       />
     </div>
   );

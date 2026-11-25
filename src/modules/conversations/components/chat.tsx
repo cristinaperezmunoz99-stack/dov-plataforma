@@ -22,6 +22,7 @@ export function Chat({
   usageTips = "",
   starters = [],
   disabled,
+  usageNotice,
 }: {
   caseId: string;
   conversationId: string;
@@ -31,6 +32,7 @@ export function Chat({
   usageTips?: string;
   starters?: string[];
   disabled?: boolean;
+  usageNotice?: string | null;
 }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
@@ -71,7 +73,7 @@ export function Chat({
         const fallback = res.status === 401 ? c.errors.unauthorized : c.errors.generic;
         setError({
           text: res.status === 401 ? c.errors.unauthorized : (data?.error ?? fallback),
-          tone: res.status === 422 || res.status === 429 ? "warning" : "danger",
+          tone: res.status === 402 || res.status === 422 || res.status === 429 ? "warning" : "danger",
         });
         return;
       }
@@ -175,6 +177,7 @@ export function Chat({
       </div>
 
       {error ? <Alert tone={error.tone}>{error.text}</Alert> : null}
+      {!error && usageNotice ? <Alert tone="warning">{usageNotice}</Alert> : null}
 
       {disabled ? null : (
         <form

@@ -6,10 +6,12 @@ import { CaseList } from "@/modules/cases/components/case-list";
 import { CaseSearch } from "@/modules/cases/components/case-search";
 import { listCases } from "@/modules/cases/queries";
 import { hasMfa } from "@/modules/mfa/actions";
+import { UsageCard } from "@/modules/usage/components/usage-card";
+import { getUsageStatus } from "@/modules/usage/queries";
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const [recent, mfaEnabled] = await Promise.all([listCases({ limit: 5 }), hasMfa()]);
+  const [recent, mfaEnabled, usage] = await Promise.all([listCases({ limit: 5 }), hasMfa(), getUsageStatus()]);
 
   return (
     <main className="bg-paper min-h-full">
@@ -55,6 +57,10 @@ export default async function DashboardPage() {
             </div>
           )}
         </section>
+
+        <div className="max-w-md">
+          <UsageCard usage={usage} />
+        </div>
 
         <p className="text-body-sm text-ink-muted">{es.app.supportNote}</p>
       </div>
