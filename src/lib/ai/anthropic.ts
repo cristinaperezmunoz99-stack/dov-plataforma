@@ -20,7 +20,14 @@ export const anthropicProvider: AIProvider = {
         text: b.text,
         ...(b.cache ? { cache_control: { type: "ephemeral" as const } } : {}),
       })),
-      messages: request.messages,
+      messages: request.messages.map((m) =>
+        m.cache
+          ? {
+              role: m.role,
+              content: [{ type: "text" as const, text: m.content, cache_control: { type: "ephemeral" as const } }],
+            }
+          : { role: m.role, content: m.content },
+      ),
     });
 
     stream.on("text", (delta) => onText(delta));

@@ -2,7 +2,12 @@
  * Interfaz común para proveedores de IA. La plataforma solo depende de esto,
  * así que cambiar de proveedor o de modelo no afecta al resto del código.
  */
-export type ChatTurn = { role: "user" | "assistant"; content: string };
+export type ChatTurn = {
+  role: "user" | "assistant";
+  content: string;
+  /** Punto de caché: todo lo anterior (incluido este turno) se reutiliza en la siguiente llamada. */
+  cache?: boolean;
+};
 
 export type SystemBlock = {
   text: string;

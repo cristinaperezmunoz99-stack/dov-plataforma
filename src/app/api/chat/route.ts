@@ -16,7 +16,10 @@ import { STREAM_ERROR_MARKER } from "@/modules/conversations/stream";
 // Respuestas largas (formulaciones completas) pueden tardar más de un minuto.
 export const maxDuration = 300;
 
-const HISTORY_LIMIT = 30;
+const HISTORY_MAX = 40;
+const HISTORY_STEP = 10;
+const HISTORY_FETCH = 200;
+const HISTORY_TOKEN_BUDGET = 60_000;
 const RATE_LIMIT_PER_MINUTE = 8;
 
 const bodySchema = z.object({
@@ -26,6 +29,31 @@ const bodySchema = z.object({
 
 function fail(status: number, error: string) {
   return NextResponse.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
+}
+
+/**
+ * Caché incremental de la conversación: marca el último turno anterior al mensaje nuevo.
+ * En la siguiente llamada, instrucciones + contexto del caso + historial se leen de caché
+ * (10 % del precio de entrada) y solo se paga completo lo nuevo.
+ */
+function withHistoryCache(turns: ChatTurn[]): ChatTurn[] {
+  return turns.map((t, i) => (i === turns.length - 1 ? { ...t, cache: true } : t));
+}
+
+/**
+ * Ventana de historial estable: se descartan los mensajes más antiguos en bloques de
+ * HISTORY_STEP para que el comienzo del historial no cambie en cada turno (si cambiara,
+ * la caché no serviría). Además se respeta un presupuesto aproximado de tokens.
+ */
+function stableWindow<T extends { content: string }>(all: T[]): T[] {
+  let start = 0;
+  if (all.length > HISTORY_MAX) {
+    start = Math.ceil((all.length - HISTORY_MAX) / HISTORY_STEP) * HISTORY_STEP;
+  }
+  const approxTokens = (from: number) =>
+    all.slice(from).reduce((n, m) => n + Math.ceil(m.content.length / 3.5), 0);
+  while (start < all.length - 2 && approxTokens(start) > HISTORY_TOKEN_BUDGET) start += HISTORY_STEP;
+  return all.slice(Math.min(start, Math.max(0, all.length - 2)));
 }
 
 /** Une mensajes consecutivos del mismo rol y garantiza que empieza por el usuario. */
@@ -117,9 +145,9 @@ export async function POST(request: NextRequest) {
       .select("role, content")
       .eq("conversation_id", conversation.id)
       .order("created_at", { ascending: false })
-      .limit(HISTORY_LIMIT),
+      .limit(HISTORY_FETCH),
   ]);
-  const history = (historyRes.data ?? []).reverse().map((m) => ({
+  const history = stableWindow((historyRes.data ?? []).reverse()).map((m) => ({
     role: m.role as ChatTurn["role"],
     content: m.content,
   }));
@@ -159,7 +187,7 @@ export async function POST(request: NextRequest) {
           model: version.model,
           maxTokens: version.max_tokens,
           system: [{ text: version.system_prompt }, { text: caseContext, cache: true }],
-          messages: normalizeTurns([...history, { role: "user", content: message }]),
+          messages: withHistoryCache(normalizeTurns([...history, { role: "user", content: message }])),
         },
         send,
       );
